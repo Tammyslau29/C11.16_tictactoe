@@ -1,5 +1,5 @@
 function startPage() {
-    // assign click handlers here
+
 
     var start_page=$('<div>').addClass('startpage');
     $('body').append(start_page);
