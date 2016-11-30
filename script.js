@@ -37,25 +37,42 @@ function startPage2() {
     })
 }
 var game_size = $('#players_input_gamesize').val();
-function gameBoard(game_size){
-    for( i = 0; i<game_size; i++ ) {
-        var row;
+function gameBoard(game_size) {
+    console.log("game board called");
+    var row = "";
+    var cell="";
+    for (i = 0; i < game_size; i++) {
         if (i === 0) {
-            row = $("<div>").addClass("row" + i).addClass('top');
+            console.log("first I");
+            row = $("<div>").addClass("row").addClass('top');
         }
-        else if (i === game_size -1){
-            row = $("<div>").addClass("row" + i).addClass('bottom');
+        else if (i === game_size - 1) {
+            row = $("<div>").addClass("row").addClass('bottom');
+            console.log("first  i else if");
+
         }
         else {
-            row = $("<div>").addClass("row" + i);
-        }
-            $("#game_board").append(row);
-            for (j = 0; j < game_size; j++) {
-                var cell = $("<div>").addClass("cell");
+            row = $("<div>").addClass("row").addClass('middle');
+            console.log("I else");
 
-                $(".row" + i).append(cell);
-            }
         }
+        $("#game_board").append(row);
+        for (j = 0; j < game_size; j++) {
+            if (j === 0) {
+                cell = $("<div>").addClass("cell").addClass("left_side");
+                console.log("first j");
+            }
+            else if (j === game_size - 1) {
+                cell = $("<div>").addClass("cell").addClass('right_side');
+                console.log("first  j else if ");
+            }
+            else{
+                cell = $("<div>").addClass("cell");
+                console.log("else j ");
+            }
+            row.append(cell);
+        }
+    }
 }
 /*Generates array of winning numbers*/
 var generateWinningNumbers = function(size){
