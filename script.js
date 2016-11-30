@@ -44,6 +44,15 @@ function gameBoard (){
             }
         }
 }
+/* sets game to initial conditions*/
+var initGame = function (){
+    var turn= "X";
+    var score = {
+        "X" : 0,
+        "O" : 0
+    };
+    var move_counter = 0;
+};
 /*Generates array of winning numbers*/
 var generateWinningNumbers = function(size){
     var val = 1, cells = [], wins = [];
@@ -69,7 +78,7 @@ var generateWinningNumbers = function(size){
 };
 var winning_array = generateWinningNumbers(game_size);
 /*Checks player score against winning numbers and returns result*/
-var winningScore = function(score){
+var winningScore = function(player_score){
     for (var i = 0; i < winning_array.length; i++){
         if (winning_array[i] & player_score === winning_array[i]){
             return true
@@ -77,17 +86,27 @@ var winningScore = function(score){
         return false
     }
 };
-$(document).ready(function() {
-    startPage();
-    var turn = "X";
-    $(this).click(function(){
-        console.log("Works")
-        $(this).html(turn)
+/*Upon click, this checks winning condition, and/or switches player*/
+var conditionChecker = function(){
+    $(this).html(turn);
+    move_counter++;
+    score[turn] += $(this).data("number");
+    if (winningScore(player_score[turn])){
+        alert("You Win")
+    }else if (move_counter === (size * size)){
+        alert("Cat's Game");
+        initGame();
+    } else{
         if (turn === "X"){
             turn = "O";
         }else {
             turn = "X"
-        };
-    });
-})
+        }
+    }
+};
+$(document).ready(function() {
+    startPage();
+    initGame();
+    $(this).click(conditionChecker());
+});
 
