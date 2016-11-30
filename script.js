@@ -92,7 +92,7 @@ var winningScore = function(player_score){
         return false
     }
 };
-var uponClick = function (){
+var handleClick = function (){
     if($(this).html().is(':empty')){
         return;
     }
@@ -123,6 +123,6 @@ var conditionChecker = function(){
 $(document).ready(function() {
     startPage();
     initGame();
-    $(this).click(uponClick());
+    $(this).click(handleClick());
 });
 
