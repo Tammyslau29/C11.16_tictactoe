@@ -18,37 +18,67 @@ function startPage() {
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            if ($('#players_input').val() == "tic-tac-toe") {startPage2();}
+            if ($('#players_input').val() == "tic-tac-toe") {
+                // $('#players_input').unbind(keypress);
+                startPage2();
+            }
         }
     })
 }
 function startPage2() {
     var start_target=$('.startpage');
     $('#start_pic').hide();
-    var start_prompt2=$('<p>wargames ~$</p><p>Tic-Tac-Toe</p><p>Number of players? <input id="players_input_number"></p>');
+    var start_prompt2=$('<p>wargames ~$</p><p>Tic-Tac-Toe</p><p>Size of board(3-7)? <input id="players_input_gamesize"></p>');
     start_target.append(start_prompt2);
-    $('#players_input_number').focus();
-}
-var game_size= 3;
-function gameBoard (){
-    for( i = 0; i<game_size; i++ ) {
-        var row;
-        if (i === 0) {
-            row = $("<div>").addClass("row" + i).addClass('top');
+    $('#players_input_gamesize').focus();
+    $('#players_input_gamesize').keypress(function (event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            var game_size = $('#players_input_gamesize').val();
+            console.log('game size is'+game_size);
+            $('.startpage').toggle();
+            // $('#players_input_gamesize').unbind(keypress);
+            gameBoard(game_size);
         }
-        else if (i === game_size -1){
-            row = $("<div>").addClass("row" + i).addClass('bottom');
+    })
+}
+var game_size = $('#players_input_gamesize').val();
+function gameBoard(game_size) {
+    console.log("game board called");
+    var row = "";
+    var cell="";
+    for (i = 0; i < game_size; i++) {
+        if (i === 0) {
+            console.log("first I");
+            row = $("<div>").addClass("row").addClass('top');
+        }
+        else if (i === game_size - 1) {
+            row = $("<div>").addClass("row").addClass('bottom');
+            console.log("first  i else if");
+
         }
         else {
-            row = $("<div>").addClass("row" + i);
-        }
-            $("#game_board").append(row);
-            for (j = 0; j < game_size; j++) {
-                var cell = $("<div>").addClass("cell");
+            row = $("<div>").addClass("row").addClass('middle');
+            console.log("I else");
 
-                $(".row" + i).append(cell);
-            }
         }
+        $("#game_board").append(row);
+        for (j = 0; j < game_size; j++) {
+            if (j === 0) {
+                cell = $("<div>").addClass("cell").addClass("left_side");
+                console.log("first j");
+            }
+            else if (j === game_size - 1) {
+                cell = $("<div>").addClass("cell").addClass('right_side');
+                console.log("first  j else if ");
+            }
+            else{
+                cell = $("<div>").addClass("cell");
+                console.log("else j ");
+            }
+            row.append(cell);
+        }
+    }
 }
 /* sets game to initial conditions*/
 var initGame = function (){
