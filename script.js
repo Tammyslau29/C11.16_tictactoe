@@ -1,3 +1,9 @@
+var turn= "X";
+var score = {
+    "X" : 0,
+    "O" : 0
+};
+var move_counter = 0;
 function startPage() {
     // assign click handlers here
 
@@ -46,12 +52,12 @@ function gameBoard (){
 }
 /* sets game to initial conditions*/
 var initGame = function (){
-    var turn= "X";
-    var score = {
+    turn= "X";
+    score = {
         "X" : 0,
         "O" : 0
     };
-    var move_counter = 0;
+    move_counter = 0;
 };
 /*Generates array of winning numbers*/
 var generateWinningNumbers = function(size){
@@ -86,27 +92,37 @@ var winningScore = function(player_score){
         return false
     }
 };
-/*Upon click, this checks winning condition, and/or switches player*/
-var conditionChecker = function(){
+var uponClick = function (){
+    if($(this).html().is(':empty')){
+        return;
+    }
     $(this).html(turn);
     move_counter++;
     score[turn] += $(this).data("number");
+    conditionChecker();
+    switchPlayers();
+};
+/*Switches players*/
+var switchPlayers = function(){
+    if (turn === "X"){
+        turn = "O";
+    }else {
+        turn = "X"
+    }
+};
+/*Checks winning condition*/
+var conditionChecker = function(){
     if (winningScore(player_score[turn])){
-        alert("You Win")
+        alert("You Win");
+        initGame();
     }else if (move_counter === (size * size)){
         alert("Cat's Game");
         initGame();
-    } else{
-        if (turn === "X"){
-            turn = "O";
-        }else {
-            turn = "X"
-        }
     }
 };
 $(document).ready(function() {
     startPage();
     initGame();
-    $(this).click(conditionChecker());
+    $(this).click(uponClick());
 });
 
