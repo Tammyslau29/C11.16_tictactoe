@@ -1,3 +1,22 @@
+#game_board{
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
+.cell{
+    border: solid black;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+    margin: 0;
+}
+.row0,.row1,.row2,.row3,.row4,.row5,.row6,.row7{
+    height: 50px;
+    width: 100%;
+    border-top: none;
+
+}
 .startpage {
     width: 97vw;
     height: 93vh;
@@ -20,3 +39,4 @@
     transform: translate(-50%,-50%);
     position: absolute;
 }
+
