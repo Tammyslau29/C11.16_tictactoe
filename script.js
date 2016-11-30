@@ -40,6 +40,10 @@ $(document).ready(function() {
     $(this).click(function(){
         console.log("Works")
         $(this).html(turn)
-        turn = turn === "X" ? "O" : "X";
-    })
+        if (turn === "X"){
+            turn = "O";
+        }else {
+            turn = "X"
+        };
+    });
 })
