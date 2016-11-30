@@ -10,12 +10,12 @@
     width: 50px;
     display: inline-block;
     margin: 0;
+    box-sizing: border-box;
 }
-.row0,.row1,.row2,.row3,.row4,.row5,.row6,.row7{
+.row{
     height: 50px;
     width: 100%;
-    border-top: none;
-
+    box-sizing: border-box;
 }
 .startpage {
     width: 97vw;
@@ -39,4 +39,27 @@
     transform: translate(-50%,-50%);
     position: absolute;
 }
-
+.top .cell{
+    border-top: none;
+}
+.bottom .cell{
+    border-bottom: none;
+}
+.top .left_side {
+    border-left: none;
+}
+.top .right_side {
+    border-right: none;
+}
+.bottom .left_side {
+    border-left: none;
+}
+.bottom .right_side {
+    border-right: none;
+}
+.middle .left_side {
+    border-left: none;
+}
+.middle .right_side {
+    border-right: none;
+}
