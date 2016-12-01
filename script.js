@@ -152,18 +152,16 @@ var winning_array = generateWinningNumbers(game_size);
 /*Checks player score against winning numbers and returns result*/
 var winningScore = function(player_score){
     for (var i = 0; i < winning_array.length; i++){
-        if (winning_array[i] & player_score === winning_array[i]){
+        if ((winning_array[i] & player_score) === winning_array[i]){
             return true
         }
-        return false
     }
+    return false
 };
 var cellClicked = function(){
-    console.log("working")
     $(this).text(turn);
-    console.log($(this));
     move_counter++;
-    score[turn] += cell.data("cell_value");
+    score[turn] += $(this).data("cell_value");
     conditionChecker();
     switchPlayers();
 };
@@ -177,6 +175,7 @@ var switchPlayers = function(){
 };
 /*Checks winning condition*/
 var conditionChecker = function(){
+    console.log(score[turn]);
     if (winningScore(score[turn])){
         alert("You Win");
         initGame();
