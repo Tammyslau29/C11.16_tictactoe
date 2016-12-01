@@ -7,6 +7,8 @@ var game_size = 2;
 var move_counter = 0;
 var winning_array = [];
 var cells_array = [1];
+var win_tracker_p1 = 0;
+var win_tracker_p2 = 0;
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
 var sound_excellent = new Audio("sounds/excellent.mp3");
@@ -14,6 +16,7 @@ var sound_already = new Audio("sounds/alreadychanged.mp3");
 var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
+
 
 function fadeSong(duration) {
     if (!duration) {
@@ -31,7 +34,7 @@ function chooseSound() {
 }
 
 function changeBackground(new_bg) {
-    bgimg.fadeOut()
+    bgimg.fadeOut();
     new_bg = 'images/' + new_bg;
     bgimg.html('<img src = "'+new_bg+'" id="bg">');
     bgimg.fadeIn()
@@ -66,10 +69,12 @@ function statsDisplay() {
     $('body').append(stats_container);
     var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
     var player_container=$("<div>").addClass("playercontainer");
-    var players= $(player_container).append('<h2>Player 1</h2>','<h2>Player 2</h2>');
+    var player1= $(player_container).append('<h2 id="player1">Player 1</h2><p class="value1"></p>');
+    var player2= $(player_container).append('<h2 id="player2">Player 2</h2><p class="value2"></p>');
     var stats_target = $(".stats_container");
-    stats_container.append(stats_head,player_container,players);
-    //var reset_button=$
+    stats_container.append(stats_head,player_container,player1,player2);
+
+
 }
 
 function startPage2() {
@@ -113,6 +118,8 @@ function startPage3() {
                 start_target.remove();
                 gameBoard(game_size);
                 statsDisplay();
+                updateStats();
+
             } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
                 sound_already.play();
@@ -239,18 +246,34 @@ var conditionChecker = function() {
     console.log(score[turn]);
     if (winningScore(score[turn])){
         alert("You Win");
+        if (turn==="X") {
+            win_tracker_p1++;
+        } else if (turn==="O") {
+            win_tracker_p2++;
+        }
+        updateStats();
         // initGame();
-    }else if (move_counter === (game_size * game_size)){
+
+    }  else if (move_counter === (game_size * game_size)){
         alert("Cat's Game");
         // initGame();
     }
 };
 
+function updateStats(){
+   if(win_tracker_p1>0){
+       $(".value1").append(win_tracker_p1);
+   }
+   else if (win_tracker_p2>0){
+       $(".value2").append(win_tracker_p2);
+   }
+}
+
+
 function resetAll() {
     $('#game_board *').remove();
     $('#bgimg img').remove();
     $('.statscontainer').remove();
-
     initGame();
 }
 
