@@ -185,6 +185,10 @@ var initGame = function () {
     move_counter = 0;
     winning_array = [];
     cells_array = [1];
+    score = {
+        "X" : 0,
+        "O" : 0
+    };
     startPage();
 };
 
@@ -262,10 +266,10 @@ var conditionChecker = function() {
 
 function updateStats(){
    if(win_tracker_p1>0){
-       $(".value1").append(win_tracker_p1);
+       $(".value1").text(win_tracker_p1);
    }
    else if (win_tracker_p2>0){
-       $(".value2").append(win_tracker_p2);
+       $(".value2").text(win_tracker_p2);
    }
 }
 
