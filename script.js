@@ -1,9 +1,14 @@
 var turn = "X";
-var score;
+var score = {
+    "X" : 0,
+    "O" : 0
+};
 var game_size = 2;
 var move_counter = 0;
 var winning_array = [];
 var cells_array = [1];
+var win_tracker_p1 = 0;
+var win_tracker_p2 = 0;
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
 var sound_excellent = new Audio("sounds/excellent.mp3");
@@ -12,6 +17,7 @@ var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
 var num_players;
+
 
 function fadeSong(duration) {
     if (!duration) {
@@ -29,7 +35,7 @@ function chooseSound() {
 }
 
 function changeBackground(new_bg) {
-    bgimg.fadeOut()
+    bgimg.fadeOut();
     new_bg = 'images/' + new_bg;
     bgimg.html('<img src = "'+new_bg+'" id="bg">');
     bgimg.fadeIn()
@@ -40,17 +46,20 @@ function startPage() {
     sound_playgame.play();
     var start_page = $('<div>').addClass('startpage');
     $('body').append(start_page);
-    var start_prompt1 = $('<p>wargames ~$ <input type="text" id="players_input" autofocus></p>');
+    var start_prompt1 = $('<p>wargames ~$ <input type="text" id="players_input"></p>');
     var start_tip = $('<p>Click the image or type tic-tac-toe to play the game!</p>');
     var start_button = $('<img src="images/wargames-fullboard.jpg" id="start_pic">');
     var start_target = $('.startpage');
     start_target.append(start_prompt1,start_tip,start_button);              //builds the start page
+    $('#players_input').focus();
+
+    // $(".startpage").on( "click", "#start_pic", startPage2);
+
     $('#start_pic').click(startPage2);
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
             if ($('#players_input').val() == "tic-tac-toe") {
-                // $('#players_input').unbind(keypress);
                 startPage2();
             }
         }
@@ -61,10 +70,12 @@ function statsDisplay() {
     $('body').append(stats_container);
     var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
     var player_container=$("<div>").addClass("playercontainer");
-    var players= $(player_container).append('<h2>Player 1</h2>','<h2>Player 2</h2>');
+    var player1= $(player_container).append('<h2 id="player1">Player 1</h2><p class="value1"></p>');
+    var player2= $(player_container).append('<h2 id="player2">Player 2</h2><p class="value2"></p>');
     var stats_target = $(".stats_container");
-    stats_container.append(stats_head,player_container,players);
-    //var reset_button=$
+    stats_container.append(stats_head,player_container,player1,player2);
+
+
 }
 
 function startPage2() {
@@ -107,11 +118,12 @@ function startPage3() {
             winning_array = generateWinningNumbers(game_size);
             console.log('game size is ' + game_size);
             if (game_size >= 3 && game_size <= 5) {
-                start_target.toggle();
+                start_target.remove();
                 gameBoard(game_size);
                 statsDisplay();
-            }
-            else {
+                updateStats();
+
+            } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
                 sound_already.play();
                 start_target.append(game_size_warning);
@@ -169,11 +181,18 @@ function gameBoard(game_size) {
 /* set game to initial conditions*/
 var initGame = function () {
     turn = "X";
+    // score = {
+    //     "X" : 0,
+    //     "O" : 0
+    // };
+    move_counter = 0;
+    winning_array = [];
+    cells_array = [1];
     score = {
         "X" : 0,
         "O" : 0
     };
-    move_counter = 0;
+    startPage();
 };
 var callAI = function(){
     startPage3();
@@ -249,15 +268,43 @@ var conditionChecker = function() {
     console.log(score[turn]);
     if (winningScore(score[turn])){
         alert("You Win");
-        initGame();
-    }else if (move_counter === (game_size * game_size)){
+        if (turn==="X") {
+            win_tracker_p1++;
+        } else if (turn==="O") {
+            win_tracker_p2++;
+        }
+        updateStats();
+        // initGame();
+
+    }  else if (move_counter === (game_size * game_size)){
         alert("Cat's Game");
-        initGame();
+        // initGame();
     }
 };
 
+function updateStats(){
+   if(win_tracker_p1>0){
+       $(".value1").text(win_tracker_p1);
+   }
+   else if (win_tracker_p2>0){
+       $(".value2").text(win_tracker_p2);
+   }
+}
+
+
+function resetAll() {
+    $('#game_board *').remove();
+    $('#bgimg img').remove();
+    $('.statscontainer').remove();
+    initGame();
+}
+
+function resetBoard() {
+    gameBoard();
+}
+
 $(document).ready(function() {
-    startPage();
+    // startPage();
     initGame();
 
 });
