@@ -1,8 +1,5 @@
 var turn= "X";
-var score = {
-    "X" : 0,
-    "O" : 0
-};
+var score;
 var move_counter = 0;
 function startPage() {
     // assign click handlers here
@@ -86,6 +83,7 @@ function gameBoard(game_size) {
             row.append(cell);
         }
     }
+    $(".cell").click(cellClicked);
 }
 /* sets game to initial conditions*/
 var initGame = function (){
@@ -129,13 +127,12 @@ var winningScore = function(player_score){
         return false
     }
 };
-var uponClick = function (){
-    if($(this).html().is(':empty')){
-        return;
-    }
-    $(this).html(turn);
+var cellClicked = function(){
+    console.log("working")
+    $(this).text(turn);
+    console.log($(this));
     move_counter++;
-    score[turn] += $(this).data("number");
+    score[turn] += cell.data("cell_value");
     conditionChecker();
     switchPlayers();
 };
@@ -149,10 +146,10 @@ var switchPlayers = function(){
 };
 /*Checks winning condition*/
 var conditionChecker = function(){
-    if (winningScore(player_score[turn])){
+    if (winningScore(score[turn])){
         alert("You Win");
         initGame();
-    }else if (move_counter === (size * size)){
+    }else if (move_counter === (game_size * game_size)){
         alert("Cat's Game");
         initGame();
     }
@@ -160,6 +157,5 @@ var conditionChecker = function(){
 $(document).ready(function() {
     startPage();
     initGame();
-    $(this).click(uponClick());
 });
 
