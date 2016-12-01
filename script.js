@@ -41,6 +41,8 @@ function changeBackground(new_bg) {
 }
 
 function startPage() {
+    fadeSong(2000);
+    bgmusic=new Audio("sounds/wargames-theme.mp3");
     bgmusic.play();
     sound_playgame.play();
     var start_page = $('<div>').addClass('startpage');
@@ -171,7 +173,13 @@ function gameBoard(game_size) {
             row.append(cell);
         }
     }
+    var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
+    $("#game_screen").append(reset_button);
+    $("#reset_button").click(resetAll);
     $(".cell").click(cellClicked);
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-2.mp3');
+    bgmusic.play();
     sound_war.play();
 }
 
@@ -249,11 +257,14 @@ var switchPlayers = function() {
 var conditionChecker = function() {
     console.log(score[turn]);
     if (winningScore(score[turn])){
-        alert("You Win");
         if (turn==="X") {
             win_tracker_p1++;
+            updateStats();
+            gameWon();
         } else if (turn==="O") {
             win_tracker_p2++;
+            updateStats();
+            gameWon();
         }
         updateStats();
         // initGame();
@@ -264,6 +275,28 @@ var conditionChecker = function() {
     }
 };
 
+function gameWon() {
+    $('#game_board *').remove();
+    $('#reset_button').toggle();
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-5.mp3');
+    bgmusic.play();
+    var winning_gif=$('<img id="winner" src="images/nukeslaunching.gif">');
+    $('#game_screen').append(winning_gif);
+    var winning_sound=new Audio('sounds/2400warheads.mp3');
+    var winning_sound2=new Audio('sounds/billiantlight.mp3');
+    winning_sound.play();
+    setTimeout(function(){
+        winning_sound2.play();
+        setTimeout(function(){
+        winning_gif.remove();
+            $('#reset_button').toggle();
+            // resetAll();
+        }, 6000);
+    }, 6000);
+
+
+}
 function updateStats(){
    if(win_tracker_p1>0){
        $(".value1").text(win_tracker_p1);
@@ -273,11 +306,11 @@ function updateStats(){
    }
 }
 
-
 function resetAll() {
     $('#game_board *').remove();
     $('#bgimg img').remove();
     $('.statscontainer').remove();
+    $('#reset_button').remove();
     initGame();
 }
 

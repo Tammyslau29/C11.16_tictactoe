@@ -124,6 +124,13 @@ div.row.top {
 .playercontainer{
     font-family: "Lucida Console", Monaco, monospace;
     color: green;
-
-
+}
+#reset_button {
+    bottom: 10%;
+    left: 10%;
+    position: absolute;
+}
+#winner {
+    height: 100vh;
+    width: 100vw;
 }
