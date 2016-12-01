@@ -1,11 +1,8 @@
 var turn= "X";
-var score = {
-    "X" : 0,
-    "O" : 0
-};
+var score;
+var game_size=3;
 var move_counter = 0;
 function startPage() {
-
 
     var start_page=$('<div>').addClass('startpage');
     $('body').append(start_page);
@@ -26,23 +23,54 @@ function startPage() {
     })
 }
 function startPage2() {
-    var start_target=$('.startpage');
+    var start_target = $('.startpage');
     $('#start_pic').hide();
-    var start_prompt2=$('<p>wargames ~$</p><p>Tic-Tac-Toe</p><p>Size of board(3-7)? <input id="players_input_gamesize"></p>');
+    var start_prompt2 = $('<p>wargames ~$</p><p>Tic-Tac-Toe</p><p>Number of players? <input id="players_input_num_players"></p>');
     start_target.append(start_prompt2);
+    $('#players_input_num_players').focus();
+    $('#players_input_num_players').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var num_players = $('#players_input_num_players').val();
+            console.log("number of players= " + num_players + typeof (num_players));
+            if (num_players=='2' || num_players=='two') {
+                startPage3();
+            } else if (num_players=='0' || num_players=='zero') {
+                easterEgg();
+            } else {
+                var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>')
+                start_target.append(warning);
+            }
+        }
+    })
+}
+function startPage3() {
+    var start_target = $('.startpage');
+    var start_prompt3=$('<p>wargames ~$</p><p>Size of board(3-7)? <input id="players_input_gamesize"></p>');
+    start_target.append(start_prompt3);
     $('#players_input_gamesize').focus();
     $('#players_input_gamesize').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            var game_size = $('#players_input_gamesize').val();
-            console.log('game size is'+game_size);
-            $('.startpage').toggle();
-            // $('#players_input_gamesize').unbind(keypress);
-            gameBoard(game_size);
+            game_size = $('#players_input_gamesize').val();
+            console.log('game size is '+game_size);
+            if (game_size>=3 && game_size<=7) {
+                start_target.toggle();
+                // $('#players_input_gamesize').unbind(keypress);
+                gameBoard(game_size);
+            } else {
+                var game_size_warning = $('<p>Please enter a value between 3 and 7.</p>');
+                start_target.append(game_size_warning);
+            }
         }
     })
 }
-var game_size = $('#players_input_gamesize').val();
+function easterEgg() {
+    console.log('Easter egg found');
+    var egg=$('<img id="egg" src="images/wargames-tictactoe.gif">');
+    $('.startpage').append(egg);
+}
+// var game_size = $('#players_input_gamesize').val();
 function gameBoard(game_size) {
     console.log("game board called");
     var row = "";
