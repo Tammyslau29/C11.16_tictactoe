@@ -24,6 +24,22 @@ function startPage() {
         }
     })
 }
+
+
+function statsDisplay() {
+    var stats_container = $("<div>").addClass('statscontainer');
+    $('body').append(stats_container);
+    var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
+    var player_container=$("<div>").addClass("playercontainer");
+    var players= $(player_container).append('<h2>Player 1</h2>','<h2>Player 2</h2>');
+    var stats_target = $(".stats_container");
+    stats_container.append(stats_head,player_container,players);
+    //var reset_button=$
+}
+
+
+
+
 function startPage2() {
     var start_target = $('.startpage');
     $('#start_pic').hide();
@@ -40,7 +56,7 @@ function startPage2() {
             } else if (num_players=='0' || num_players=='zero') {
                 easterEgg();
             } else {
-                var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>')
+                var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>');
                 start_target.append(warning);
             }
         }
@@ -61,6 +77,7 @@ function startPage3() {
                 start_target.toggle();
                 // $('#players_input_gamesize').unbind(keypress);
                 gameBoard(game_size);
+                statsDisplay();
             } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 6.</p>');
                 start_target.append(game_size_warning);
@@ -73,9 +90,9 @@ function easterEgg() {
     var egg=$('<img id="egg" src="images/wargames-tictactoe.gif">');
     $('.startpage').append(egg);
 }
+
 // var game_size = $('#players_input_gamesize').val();
 function gameBoard(game_size) {
-    console.log("game board called");
     var row = "";
     var cell="";
     var cell_array_counter=0;
@@ -85,18 +102,13 @@ function gameBoard(game_size) {
     console.log(cells_array);
     for (i = 0; i < game_size; i++) {
         if (i === 0) {
-            console.log("first I");
             row = $("<div>").addClass("row").addClass('top');
         }
         else if (i === game_size - 1) {
             row = $("<div>").addClass("row").addClass('bottom');
-            console.log("first  i else if");
-
         }
         else {
             row = $("<div>").addClass("row").addClass('middle');
-            console.log("I else");
-
         }
         $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
@@ -190,5 +202,6 @@ var conditionChecker = function(){
 $(document).ready(function() {
     startPage();
     initGame();
+
 });
 
