@@ -3,6 +3,7 @@ var score;
 var game_size=2;
 var move_counter = 0;
 var winning_array=[];
+var cells_array=[1];
 function startPage() {
 
     var start_page=$('<div>').addClass('startpage');
@@ -77,7 +78,6 @@ function gameBoard(game_size) {
     console.log("game board called");
     var row = "";
     var cell="";
-    var cells_array=[1];
     var cell_array_counter=0;
     for(x=1;x<game_size*game_size;x++){
         cells_array.push(Math.pow(2,x));
@@ -165,6 +165,8 @@ var cellClicked = function(){
     score[turn] += $(this).data("cell_value");
     conditionChecker();
     switchPlayers();
+    $(this).unbind("click");
+    $(this).addClass("unclickable");
 };
 /*Switches players*/
 var switchPlayers = function(){
