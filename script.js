@@ -11,6 +11,7 @@ var sound_already = new Audio("sounds/alreadychanged.mp3");
 var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
+var num_players;
 
 function fadeSong(duration) {
     if (!duration) {
@@ -76,12 +77,14 @@ function startPage2() {
     $('#players_input_num_players').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            var num_players = $('#players_input_num_players').val();
             console.log("number of players= " + num_players + typeof (num_players));
+            num_players = $('#players_input_num_players').val();
             if (num_players =='2' || num_players == 'two') {
                 startPage3();
             } else if (num_players =='0' || num_players =='zero') {
                 easterEgg();
+            // } else if(num_players =="1" || num_players =="one"){
+            //    callAI();
             } else {
                 var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>');
                 start_target.append(warning);
@@ -107,7 +110,8 @@ function startPage3() {
                 start_target.toggle();
                 gameBoard(game_size);
                 statsDisplay();
-            } else {
+            }
+            else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
                 sound_already.play();
                 start_target.append(game_size_warning);
@@ -171,7 +175,22 @@ var initGame = function () {
     };
     move_counter = 0;
 };
-
+var callAI = function(){
+    startPage3();
+    initGame();
+    if (turn = "O") {
+        var AI_move = cells_array[Math.floor(Math.random()*(game_size*game_size))];
+        if (AI_move.hasClass("unclickable")){
+            AI_move;
+        }
+        AI_move.text(turn);
+        score[turn] += $(this).data("cell_value");
+        conditionChecker();
+        $(this).unbind("click");
+        $(this).addClass("unclickable");
+    }
+    switchPlayers();
+};
 /*Generate array of winning numbers*/
 var generateWinningNumbers = function(game_size) {
     var val = 1, cells = [], wins = [];
