@@ -125,7 +125,7 @@ var cellClicked = function(){
     $(this).text(turn);
     console.log($(this));
     move_counter++;
-    score[turn] += $(this).data("number");
+    score[turn] += cell.data("cell_value");
     conditionChecker();
     switchPlayers();
 };
