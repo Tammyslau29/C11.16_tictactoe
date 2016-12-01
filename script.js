@@ -116,7 +116,6 @@ function easterEgg() {
 }
 
 function gameBoard(game_size) {
-    sound_war.play();
     var row = "";
     var cell = "";
     var cell_array_counter = 0;
@@ -126,35 +125,30 @@ function gameBoard(game_size) {
     $('#bgimg').html('<img src="images/wargames-bg1.jpg" id="bg">');
     for (var i = 0; i < game_size; i++) {
         if (i === 0) {
-            console.log("first I");
             row = $("<div>").addClass("row").addClass('top');
         }
         else if (i === game_size - 1) {
             row = $("<div>").addClass("row").addClass('bottom');
-            console.log("first  i else if");
         }
         else {
             row = $("<div>").addClass("row").addClass('middle');
-            console.log("I else");
         }
         $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
             if (j === 0) {
                 cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
             }
             else if (j === game_size - 1) {
                 cell = $("<div>").addClass("cell").addClass('right_side').data("cell_value",cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
             }
             else {
                 cell = $("<div>").addClass("cell").data("cell_value", cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
             }
             row.append(cell);
         }
     }
     $(".cell").click(cellClicked);
+    sound_war.play();
 }
 
 /* set game to initial conditions*/

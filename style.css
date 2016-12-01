@@ -38,8 +38,9 @@ body{
     width: 100%;
     text-align: center;
 }
-.row .top {
-    margin-top: 20%;
+div.row.top {
+    /*margin-top: 20%;
+    this works for 5way table.  Need to apply dynamically in js instead*/
 }
 .startpage {
     width: 97vw;
