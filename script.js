@@ -28,7 +28,7 @@ function chooseSound() {
 }
 
 function changeBackground(new_bg) {
-    bgimg.fadeOut()
+    bgimg.fadeOut();
     new_bg = 'images/' + new_bg;
     bgimg.html('<img src = "'+new_bg+'" id="bg">');
     bgimg.fadeIn()
@@ -63,7 +63,8 @@ function statsDisplay() {
     var players= $(player_container).append('<h2>Player 1</h2>','<h2>Player 2</h2>');
     var stats_target = $(".stats_container");
     stats_container.append(stats_head,player_container,players);
-    //var reset_button=$
+
+
 }
 
 function startPage2() {
