@@ -56,7 +56,9 @@ function startPage3() {
         if(keycode == '13'){
             game_size = $('#players_input_gamesize').val();
             winning_array = generateWinningNumbers(game_size);
+
             console.log('game size is '+game_size);
+            console.log(winning_array)
             if (game_size>=3 && game_size<=6) {
                 start_target.toggle();
                 // $('#players_input_gamesize').unbind(keypress);
@@ -82,36 +84,36 @@ function gameBoard(game_size) {
     for(x=1;x<game_size*game_size;x++){
         cells_array.push(Math.pow(2,x));
     }
-    console.log(cells_array);
+    //console.log(cells_array);
     for (i = 0; i < game_size; i++) {
         if (i === 0) {
-            console.log("first I");
+            //console.log("first I");
             row = $("<div>").addClass("row").addClass('top');
         }
         else if (i === game_size - 1) {
             row = $("<div>").addClass("row").addClass('bottom');
-            console.log("first  i else if");
+            //console.log("first  i else if");
 
         }
         else {
             row = $("<div>").addClass("row").addClass('middle');
-            console.log("I else");
+            //console.log("I else");
 
         }
         $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
             if (j === 0) {
                 cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
+                //console.log(cell.data("cell_value"));
             }
             else if (j === game_size - 1) {
                 cell = $("<div>").addClass("cell").addClass('right_side').data("cell_value",cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
+                //console.log(cell.data("cell_value"));
             }
 
             else {
                 cell = $("<div>").addClass("cell").data("cell_value", cells_array[cell_array_counter++]);
-                console.log(cell.data("cell_value"));
+                //console.log(cell.data("cell_value"));
             }
             row.append(cell);
         }
@@ -154,6 +156,7 @@ var generateWinningNumbers = function(game_size){
 var winningScore = function(player_score){
     for (var i = 0; i < winning_array.length; i++){
         if ((winning_array[i] & player_score) === winning_array[i]){
+
             return true
         }
     }
