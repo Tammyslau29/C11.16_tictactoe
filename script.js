@@ -1,7 +1,8 @@
 var turn= "X";
 var score;
-var game_size=3;
+var game_size=2;
 var move_counter = 0;
+var winning_array=[];
 function startPage() {
 
     var start_page=$('<div>').addClass('startpage');
@@ -46,20 +47,21 @@ function startPage2() {
 }
 function startPage3() {
     var start_target = $('.startpage');
-    var start_prompt3=$('<p>wargames ~$</p><p>Size of board(3-7)? <input id="players_input_gamesize"></p>');
+    var start_prompt3=$('<p>wargames ~$</p><p>Size of board(3-6)? <input id="players_input_gamesize"></p>');
     start_target.append(start_prompt3);
     $('#players_input_gamesize').focus();
     $('#players_input_gamesize').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
             game_size = $('#players_input_gamesize').val();
+            winning_array = generateWinningNumbers(game_size);
             console.log('game size is '+game_size);
-            if (game_size>=3 && game_size<=7) {
+            if (game_size>=3 && game_size<=6) {
                 start_target.toggle();
                 // $('#players_input_gamesize').unbind(keypress);
                 gameBoard(game_size);
             } else {
-                var game_size_warning = $('<p>Please enter a value between 3 and 7.</p>');
+                var game_size_warning = $('<p>Please enter a value between 3 and 6.</p>');
                 start_target.append(game_size_warning);
             }
         }
@@ -126,29 +128,28 @@ var initGame = function (){
     move_counter = 0;
 };
 /*Generates array of winning numbers*/
-var generateWinningNumbers = function(size){
+var generateWinningNumbers = function(game_size){
     var val = 1, cells = [], wins = [];
-    for (var i = 0; i < size; i++) {
+    for (var i = 0; i < game_size; i++) {
         cells[i] = [];
-        for (var j = 0; j < size; j++){
+        for (var j = 0; j < game_size; j++){
             cells[i][j] = val;
             val *=2;
         }
     }
     var row_wins = [], col_wins = [], first_diag_win = 0, second_diag_win=0;
-    for (i = 0; i < size; i++){
+    for (i = 0; i < game_size; i++){
         row_wins[i]=0;
         col_wins[i]=0;
         first_diag_win += cells[i][i];
-        second_diag_win += cells[i][size - i - 1];
-        for (j=0; j< size; j++){
+        second_diag_win += cells[i][game_size - i - 1];
+        for (j=0; j< game_size; j++){
             row_wins[i] += cells[i][j];
             col_wins[i] += cells[j][i];
         }
     }
     return row_wins.concat(col_wins, first_diag_win, second_diag_win);
 };
-var winning_array = generateWinningNumbers(game_size);
 /*Checks player score against winning numbers and returns result*/
 var winningScore = function(player_score){
     for (var i = 0; i < winning_array.length; i++){
