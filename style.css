@@ -25,7 +25,8 @@ body{
 .row{
     height: 80px;
     width: 100%;
-    box-sizing: border-box;
+    text-align: center;
+    line-height: 20;
 }
 .startpage {
     width: 97vw;
