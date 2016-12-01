@@ -75,6 +75,12 @@ function gameBoard(game_size) {
     console.log("game board called");
     var row = "";
     var cell="";
+    var cells_array=[1];
+    var cell_array_counter=0;
+    for(x=1;x<game_size*game_size;x++){
+        cells_array.push(Math.pow(2,x));
+    }
+    console.log(cells_array);
     for (i = 0; i < game_size; i++) {
         if (i === 0) {
             console.log("first I");
@@ -93,20 +99,22 @@ function gameBoard(game_size) {
         $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
             if (j === 0) {
-                cell = $("<div>").addClass("cell").addClass("left_side");
-                console.log("first j");
+                cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
+                console.log(cell.data("cell_value"));
             }
             else if (j === game_size - 1) {
-                cell = $("<div>").addClass("cell").addClass('right_side');
-                console.log("first  j else if ");
+                cell = $("<div>").addClass("cell").addClass('right_side').data("cell_value",cells_array[cell_array_counter++]);
+                console.log(cell.data("cell_value"));
             }
-            else{
-                cell = $("<div>").addClass("cell");
-                console.log("else j ");
+
+            else {
+                cell = $("<div>").addClass("cell").data("cell_value", cells_array[cell_array_counter++]);
+                console.log(cell.data("cell_value"));
             }
             row.append(cell);
         }
     }
+    $(".cell").click(cellClicked);
 }
 /* sets game to initial conditions*/
 var initGame = function (){
@@ -150,13 +158,12 @@ var winningScore = function(player_score){
         return false
     }
 };
-var uponClick = function (){
-    if($(this).html().is(':empty')){
-        return;
-    }
-    $(this).html(turn);
+var cellClicked = function(){
+    console.log("working")
+    $(this).text(turn);
+    console.log($(this));
     move_counter++;
-    score[turn] += $(this).data("number");
+    score[turn] += cell.data("cell_value");
     conditionChecker();
     switchPlayers();
 };
@@ -170,10 +177,10 @@ var switchPlayers = function(){
 };
 /*Checks winning condition*/
 var conditionChecker = function(){
-    if (winningScore(player_score[turn])){
+    if (winningScore(score[turn])){
         alert("You Win");
         initGame();
-    }else if (move_counter === (size * size)){
+    }else if (move_counter === (game_size * game_size)){
         alert("Cat's Game");
         initGame();
     }
@@ -181,6 +188,5 @@ var conditionChecker = function(){
 $(document).ready(function() {
     startPage();
     initGame();
-    $(this).click(uponClick());
 });
 
