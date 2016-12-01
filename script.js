@@ -1,5 +1,8 @@
 var turn = "X";
-var score;
+var score = {
+    "X" : 0,
+    "O" : 0
+};
 var game_size = 2;
 var move_counter = 0;
 var winning_array = [];
@@ -39,17 +42,20 @@ function startPage() {
     sound_playgame.play();
     var start_page = $('<div>').addClass('startpage');
     $('body').append(start_page);
-    var start_prompt1 = $('<p>wargames ~$ <input type="text" id="players_input" autofocus></p>');
+    var start_prompt1 = $('<p>wargames ~$ <input type="text" id="players_input"></p>');
     var start_tip = $('<p>Click the image or type tic-tac-toe to play the game!</p>');
     var start_button = $('<img src="images/wargames-fullboard.jpg" id="start_pic">');
     var start_target = $('.startpage');
     start_target.append(start_prompt1,start_tip,start_button);              //builds the start page
+    $('#players_input').focus();
+
+    // $(".startpage").on( "click", "#start_pic", startPage2);
+
     $('#start_pic').click(startPage2);
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
             if ($('#players_input').val() == "tic-tac-toe") {
-                // $('#players_input').unbind(keypress);
                 startPage2();
             }
         }
@@ -104,7 +110,7 @@ function startPage3() {
             winning_array = generateWinningNumbers(game_size);
             console.log('game size is ' + game_size);
             if (game_size >= 3 && game_size <= 5) {
-                start_target.toggle();
+                start_target.remove();
                 gameBoard(game_size);
                 statsDisplay();
             } else {
@@ -165,11 +171,14 @@ function gameBoard(game_size) {
 /* set game to initial conditions*/
 var initGame = function () {
     turn = "X";
-    score = {
-        "X" : 0,
-        "O" : 0
-    };
+    // score = {
+    //     "X" : 0,
+    //     "O" : 0
+    // };
     move_counter = 0;
+    winning_array = [];
+    cells_array = [1];
+    startPage();
 };
 
 /*Generate array of winning numbers*/
@@ -230,15 +239,27 @@ var conditionChecker = function() {
     console.log(score[turn]);
     if (winningScore(score[turn])){
         alert("You Win");
-        initGame();
+        // initGame();
     }else if (move_counter === (game_size * game_size)){
         alert("Cat's Game");
-        initGame();
+        // initGame();
     }
 };
 
+function resetAll() {
+    $('#game_board *').remove();
+    $('#bgimg img').remove();
+    $('.statscontainer').remove();
+
+    initGame();
+}
+
+function resetBoard() {
+    gameBoard();
+}
+
 $(document).ready(function() {
-    startPage();
+    // startPage();
     initGame();
 
 });
