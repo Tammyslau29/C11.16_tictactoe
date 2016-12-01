@@ -6,6 +6,8 @@ body{
     left: 50%;
     transform: translate(-50%,-50%);
     position: absolute;
+    width: 520px;
+    height: 520px;
 }
 .cell{
     border: solid lightblue;
@@ -13,7 +15,6 @@ body{
     width: 80px;
     display: inline-block;
     margin: 0;
-    box-sizing: border-box;
     line-height: 100%;
     vertical-align: middle;
     font-size:72px;
