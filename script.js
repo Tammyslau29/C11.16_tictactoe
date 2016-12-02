@@ -63,8 +63,36 @@ var initGame = function () {
         "X" : 0,
         "O" : 0
     };
-    startPage();
+    startPage0();
 };
+
+function startPage0() {
+    $('#game_screen').hide();
+    bgmusic = new Audio("sounds/introsong.mp3");
+    bgmusic.play();
+    var start_page0 = $('<div>').addClass('startpage0');
+    $('body').append(start_page0);
+    var intro_warning = $('<h3 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.</h3>');
+    $('.startpage0').append(intro_warning);
+    $('#warning_click').click(startPage0_1);
+}
+
+function startPage0_1() {
+    $('.startpage0 *').remove();
+    var start_page0_img = $('<img src="images/photoshopcircle.jpg">');
+    $('.startpage0').append(start_page0_img);
+    // var sound_tammy = new Audio("sounds/tammy1.mp3");
+    // sound_tammy.play();
+    // if they draw a circle.. {
+    // $('.startpage0 *').remove();
+    // start_page0_img = $('<img src="images/hypnocircle.gif">');
+    // $('.startpage0').append(start_page0_img);
+    // var sound_tammy2 = new Audio("sounds/tammy2.mp3");
+    // sound_tammy2.play();
+    // $('.startpage0').remove();
+    // startPage(); };
+}
+
 function startPage() {
     fadeSong(2000);
     bgmusic=new Audio("sounds/wargames-theme.mp3");
