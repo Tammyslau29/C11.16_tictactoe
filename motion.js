@@ -15,7 +15,7 @@ var Item = function(imgSrc, height, width, sensitivity) {
     img.onload = function () {
         item.setTransform([window.innerWidth/2,window.innerHeight/2], 0);
         document.body.appendChild(img);
-    }
+    };
 
     item.setTransform = function(position, rotation) {
 
@@ -76,7 +76,7 @@ var initialize = function(imgSrc, width, height, sensitivity, imgSrc2, width2, h
             counter++;
             console.log(counter);
             if (counter == 50) {
-                startPage2();
+                startPage0_2();
             }
         }
 

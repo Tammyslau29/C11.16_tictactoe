@@ -108,11 +108,11 @@ body{
     border-right: none;
 }
 #egg {
-    height: 50%;
-    /*width: 50%;*/
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    /*transform: translate(-50%,-50%);*/
     position: absolute;
 }
 .statscontainer {
@@ -180,4 +180,19 @@ body{
     .blocker{
         display:inherit;
     }
+}
+#hypno {
+    width: 100%;
+    height: 100%;
+}
+#warning_click, #warning_click2 {
+    color: red;
+}
+#warning_click:hover, #warning_click2:hover {
+    text-decoration: underline;
+}
+
+.startpage0 h1 {
+    text-align: center;
+    font-family: 'Dosis', sans-serif;
 }
