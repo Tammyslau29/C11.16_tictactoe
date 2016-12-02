@@ -12,6 +12,7 @@
 }
 body{
     background-color: black;
+    overflow: hidden;
 }
 #game_board{
     top: 50%;

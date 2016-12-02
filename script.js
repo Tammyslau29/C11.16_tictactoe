@@ -282,10 +282,30 @@ var conditionChecker = function() {
         // initGame();
 
     }  else if (move_counter === (game_size * game_size)){
-        alert("Cat's Game");
+        gameTie();
         // initGame();
     }
 };
+function gameTie() {
+    $('#game_board *').remove();
+    $('#reset_button').toggle();
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-8.mp3');
+    bgmusic.play();
+    var winning_gif=$('<img id="winner" src="images/launchcode.gif">');
+    $('#game_screen').append(winning_gif);
+    var tie_sound=new Audio('sounds/systemsucks.mp3');
+    var tie_sound2=new Audio('sounds/microchips.mp3');
+    tie_sound.play();
+    setTimeout(function(){
+        tie_sound2.play();
+        setTimeout(function(){
+            winning_gif.remove();
+            $('#reset_button').toggle();
+            // resetAll();
+        }, 6000);
+    }, 6000);
+}
 
 function gameWon() {
     $('#game_board *').remove();
