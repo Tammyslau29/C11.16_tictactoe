@@ -403,7 +403,6 @@ function startCountDown() {
     }
     var t = setTimeout(startCountDown, time);
 }
-
 $(document).ready(function() {
     // startPage();
     initGame();
