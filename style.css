@@ -134,15 +134,17 @@ div.row.top {
     color: green;
 }
 .count_down_timer {
-    height: 30px;
-    width: 160px;
+    height: 50px;
+    /*width: 200px;*/
     color: red;
     font-family: "Lucida Console", Monaco, monospace;
-    font-size: 20px;
+    font-size: 1.7vw;
     position: absolute;
-    left: 35px;
-    top: 21px;
+    left: 50%;
+    top: 56px;
+    transform: translate(-50%,-50%);
     padding: 5px;
+    background-color: black;
 }
 #reset_button {
     height: 25vh;
