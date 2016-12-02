@@ -13,7 +13,6 @@ var num_players;
 var game_play;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
 var time = 40;
-
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
 var sound_excellent = new Audio("sounds/excellent.mp3");
@@ -73,14 +72,14 @@ function startPage0() {
     bgmusic.play();
     var start_page0 = $('<div>').addClass('startpage0');
     $('body').append(start_page0);
-    var intro_warning = $('<h3 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.  Tip- F11 in Chrome</h3>');
+    var intro_warning = $('<h1 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.<p>Tip- F11 in Chrome</p></h1>');
     $('.startpage0').append(intro_warning);
     $('#warning_click').click(startPage0_1);
 }
 
 function startPage0_1() {
     $('.startpage0 *').remove();
-    var start_page0_img = $('<img src="images/photoshopcircle.jpg">');
+    var start_page0_img = $('<img src="images/newstartbg.jpg">');
     $('.startpage0').append(start_page0_img);
     var sound_tammy = new Audio("sounds/tammy1.mp3");
     sound_tammy.play();
