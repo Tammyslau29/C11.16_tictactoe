@@ -124,6 +124,15 @@ div.row.top {
 .playercontainer{
     font-family: "Lucida Console", Monaco, monospace;
     color: green;
-
-
+}
+.count_down_timer{
+    height: 30px;
+    width: 160px;
+    color:red;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 20px;
+    position: absolute;
+    left: 35px;
+    top: 21px;
+    padding: 5px;
 }

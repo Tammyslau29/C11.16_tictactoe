@@ -17,7 +17,8 @@ var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
 var num_players;
-
+var game_play;
+var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
 
 function fadeSong(duration) {
     if (!duration) {
@@ -176,10 +177,12 @@ function gameBoard(game_size) {
     }
     $(".cell").click(cellClicked);
     sound_war.play();
+    startCountDown();
 }
 
 /* set game to initial conditions*/
 var initGame = function () {
+    game_play = true;
     turn = "X";
     // score = {
     //     "X" : 0,
@@ -270,8 +273,10 @@ var conditionChecker = function() {
         alert("You Win");
         if (turn==="X") {
             win_tracker_p1++;
+            game_play = false;
         } else if (turn==="O") {
             win_tracker_p2++;
+            game_play = false;
         }
         updateStats();
         // initGame();
@@ -291,7 +296,6 @@ function updateStats(){
    }
 }
 
-
 function resetAll() {
     $('#game_board *').remove();
     $('#bgimg img').remove();
@@ -302,10 +306,31 @@ function resetAll() {
 function resetBoard() {
     gameBoard();
 }
-
+function randomizeCodes(){
+    return launch_codes_array[(Math.floor(Math.random()*7))];
+}
+function startCountDown(){
+    var a = randomizeCodes();
+    var b = randomizeCodes();
+    var c = randomizeCodes();
+    var d = randomizeCodes();
+    var e = randomizeCodes();
+    var f = randomizeCodes();
+    var g = randomizeCodes();
+    if(game_play === true){
+        $("#launch_title").text("Launch Codes:");
+        $("#char_1").text(a);
+        $("#char_2").text(b);
+        $("#char_3").text(c);
+        $("#char_4").text(d);
+        $("#char_5").text(e);
+        $("#char_6").text(f);
+        $("#char_7").text(g);
+    }
+     var t = setTimeout(startCountDown, 200);
+}
 $(document).ready(function() {
     // startPage();
     initGame();
-
 });
 
