@@ -211,6 +211,7 @@ var initGame = function () {
     };
     startPage();
 };
+
 var callAI = function(){
     startPage3();
     initGame();
@@ -227,6 +228,7 @@ var callAI = function(){
     }
     switchPlayers();
 };
+
 /*Generate array of winning numbers*/
 var generateWinningNumbers = function(game_size) {
     var val = 1, cells = [], wins = [];
@@ -309,6 +311,7 @@ var conditionChecker = function() {
         // initGame();
     }
 };
+
 function gameTie() {
     $('#game_board *').remove();
     $('#reset_button').toggle();
@@ -355,7 +358,6 @@ function gameWon() {
         }, 6000);
     }, 6000);
 
-
 }
 function updateStats(){
    // if (win_tracker_p1>0){
@@ -378,9 +380,11 @@ function resetAll() {
 function resetBoard() {
     gameBoard();
 }
+
 function randomizeCodes(){
     return launch_codes_array[(Math.floor(Math.random()*7))];
 }
+
 function startCountDown() {
     var a = randomizeCodes();
     var b = randomizeCodes();
@@ -401,6 +405,7 @@ function startCountDown() {
     }
     var t = setTimeout(startCountDown, time);
 }
+
 $(document).ready(function() {
     // startPage();
     initGame();
