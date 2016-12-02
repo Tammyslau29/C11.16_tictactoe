@@ -128,9 +128,8 @@ function startPage3() {
                 gameBoard(game_size);
                 statsDisplay();
                 updateStats();
-                $('#player1').css({"font-weight":"bold","font-size": "42px"});
-                $('#player2').css({"font-weight":"none","font-size":"25px"});
-
+                $('#player1').css({"color":"white","background-color":"green"});
+                $('#player2').css({"color":"lightblue","background-color":"inherit"});
             } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
                 sound_already.play();
@@ -277,17 +276,13 @@ var switchPlayers = function() {
     if (turn === "X"){
         turn = "O";
         //player2
-        $('#player2').css({"font-weight":"bold","font-size": "42px"});
-        $('#player1').css({"font-weight":"none","font-size":"25px"});
-
-
-
+        $('#player2').css({"color":"white","background-color":"green"});
+        $('#player1').css({"color":"lightblue","background-color":"inherit"});
     }else{
         turn = "X";
         //player1
-        $('#player1').css({"font-weight":"bold","font-size": "42px"});
-        $('#player2').css({"font-weight":"none","font-size":"25px"});
-
+        $('#player1').css({"color":"white","background-color":"green"});
+        $('#player2').css({"color":"lightblue","background-color":"inherit"});
     }
 };
 
