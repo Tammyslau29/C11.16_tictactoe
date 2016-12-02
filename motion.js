@@ -75,7 +75,7 @@ var initialize = function(imgSrc, width, height, sensitivity, imgSrc2, width2, h
         api.circle = function () {
             counter++;
             console.log(counter);
-            if (counter == 50) {
+            if (counter == 30) {
                 startPage0_2();
             }
         }

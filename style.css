@@ -181,7 +181,7 @@ body{
         display:inherit;
     }
 }
-#hypno {
+#hypno, #ending {
     width: 100vw;
     height: 100vh;
 }

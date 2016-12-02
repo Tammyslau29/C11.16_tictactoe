@@ -389,7 +389,6 @@ function gameTie() {
         setTimeout(function(){
             winning_gif.remove();
             $('#reset_button').toggle();
-            // resetAll();
         }, 8000);
     }, 6000);
 }
@@ -422,6 +421,8 @@ function gameWon() {
         $('.count_down_timer').css("background-color","black");
         $('#reset_button').toggle();
         game_won = false;
+        var ending_img = $('<img id="ending" src="images/wargames-welcome.jpg">');
+        $('#game_screen').append(ending_img);
         }, 6000);
     }, 6000);
 
