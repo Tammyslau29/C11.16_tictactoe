@@ -72,14 +72,18 @@ function startPage0() {
     bgmusic.play();
     var start_page0 = $('<div>').addClass('startpage0');
     $('body').append(start_page0);
-    var intro_warning = $('<h1 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.<p>Tip- F11 in Chrome</p></h1>');
+    var intro_warning = $('<h1 style="color: white">Please make sure your volume is up and your browser is full screen before continuing.<p>Tip- F11 in Chrome</p><p>If you have a leap motion controller <span id="warning_click">CLICK HERE.</span></p><p>If not, <span id="warning_click2">CLICK HERE.</span></p></h1>');
     $('.startpage0').append(intro_warning);
-    $('#warning_click').click(startPage0_1);
+    $('#warning_click').click(function(){
+        initialize("",0,0,1);
+        startPage0_1();
+    });
+    $('#warning_click2').click(startPage0_2);
 }
 
 function startPage0_1() {
     $('.startpage0 *').remove();
-    var start_page0_img = $('<img src="images/newstartbg.jpg">');
+    var start_page0_img = $('<img src="images/newstartbg2.png">');
     $('.startpage0').append(start_page0_img);
     var sound_tammy = new Audio("sounds/tammy1.mp3");
     sound_tammy.play();
@@ -511,6 +515,5 @@ function SetLaunchCode() {
 $(document).ready(function() {
     // startPage();
     initGame();
-    var leapSensor = initialize('images/nukebutton.png',0,0,1);
 });
 
