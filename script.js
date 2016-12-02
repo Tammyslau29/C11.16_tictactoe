@@ -47,8 +47,8 @@ function statsDisplay() {
     $('body').append(stats_container);
     var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
     var player_container=$("<div>").addClass("playercontainer");
-    var player1= $(player_container).append('<div id="player1">Player 1</div><p class="value1"></p>');
-    var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
+    var player1= $(player_container).append('<div id="player1">U.S.A</div><p class="value1"></p>');
+    var player2= $(player_container).append('<div id="player2">U.S.S.R</div><p class="value2"></p>');
     // var stats_target = $(".stats_container");
     stats_container.append(stats_head,player_container,player1,player2);
 }
