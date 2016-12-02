@@ -9,6 +9,11 @@ var winning_array = [];
 var cells_array = [1];
 var win_tracker_p1 = 0;
 var win_tracker_p2 = 0;
+var num_players;
+var game_play;
+var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
+var time = 300;
+
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
 var sound_excellent = new Audio("sounds/excellent.mp3");
@@ -16,10 +21,6 @@ var sound_already = new Audio("sounds/alreadychanged.mp3");
 var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
-var num_players;
-var game_play;
-var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
-var time = 300;
 
 function fadeSong(duration) {
     if (!duration) {
@@ -30,19 +31,40 @@ function fadeSong(duration) {
     $(bgmusic).prop("currentTime",0);
 }
 
-function chooseSound() {
-    var sound_number = (Math.floor(Math.random()*11) + 1);
-    var sound_name = new Audio('sounds/2cardsounds/' + sound_number + ".wav");
-    sound_name.play();
-}
-
 function changeBackground(new_bg) {
-    bgimg.fadeOut();
-    new_bg = 'images/' + new_bg;
-    bgimg.html('<img src = "'+new_bg+'" id="bg">');
-    bgimg.fadeIn()
+    bg=$("#bgimg");
+    bg.fadeOut();
+    setTimeout(function(){
+        new_bg = 'images/' + new_bg;
+        bg.html('<img src = "'+new_bg+'" id="bg">');
+        bg.fadeIn()
+    }, 500);
 }
 
+function statsDisplay() {
+    var stats_container = $("<div>").addClass('statscontainer');
+    $('body').append(stats_container);
+    var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
+    var player_container=$("<div>").addClass("playercontainer");
+    var player1= $(player_container).append('<div id="player1">Player 1</div><p class="value1"></p>');
+    var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
+    // var stats_target = $(".stats_container");
+    stats_container.append(stats_head,player_container,player1,player2);
+}
+
+/* set game to initial conditions*/
+var initGame = function () {
+    game_play = true;
+    turn = "X";
+    move_counter = 0;
+    winning_array = [];
+    cells_array = [1];
+    score = {
+        "X" : 0,
+        "O" : 0
+    };
+    startPage();
+};
 function startPage() {
     fadeSong(2000);
     bgmusic=new Audio("sounds/wargames-theme.mp3");
@@ -57,9 +79,6 @@ function startPage() {
     $('#game_screen').hide();
     start_target.append(start_prompt1,start_tip,start_button);              //builds the start page
     $('#players_input').focus();
-
-    // $(".startpage").on( "click", "#start_pic", startPage2);
-
     $('#start_pic').click(startPage2);
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -69,16 +88,6 @@ function startPage() {
             }
         }
     })
-}
-function statsDisplay() {
-    var stats_container = $("<div>").addClass('statscontainer');
-    $('body').append(stats_container);
-    var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
-    var player_container=$("<div>").addClass("playercontainer");
-    var player1= $(player_container).append('<div id="player1">Player 1</div><p class="value1"></p>');
-    var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
-    var stats_target = $(".stats_container");
-    stats_container.append(stats_head,player_container,player1,player2);
 }
 
 function startPage2() {
@@ -91,13 +100,15 @@ function startPage2() {
     $('#players_input_num_players').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            console.log("number of players= " + num_players + typeof (num_players));
             num_players = $('#players_input_num_players').val();
-            if (num_players =='2' || num_players == 'two') {
+            if (num_players.toLowerCase() == 'two') {
+                num_players = '2';
+            }
+            if (num_players == '2') {
                 startPage3();
-            } else if (num_players =='0' || num_players =='zero') {
+            } else if (num_players == '0' || num_players.toLowerCase() =='zero') {
                 easterEgg();
-            // } else if(num_players =="1" || num_players =="one"){
+            // } else if(num_players =="1" || num_players.toLowerCase() =="one"){
             //    callAI();
             } else {
                 var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>');
@@ -115,12 +126,17 @@ function startPage3() {
     $('#players_input_gamesize').focus();
     $('#players_input_gamesize').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        console.log(keycode);
         if(keycode == '13'){
             game_size = $('#players_input_gamesize').val();
-            winning_array = generateWinningNumbers(game_size);
-            console.log('game size is ' + game_size);
+            if (game_size.toLowerCase() == "three") {
+                game_size = '3';
+            } else if (game_size.toLowerCase() == "four") {
+                game_size = '4';
+            } else if (game_size.toLowerCase() == "five") {
+                game_size = '5';
+            }
             if (game_size >= 3 && game_size <= 5) {
+                winning_array = generateWinningNumbers(game_size);
                 start_target.remove();
                 $('#game_screen').show();
                 gameBoard(game_size);
@@ -188,27 +204,13 @@ function gameBoard(game_size) {
     $("#game_screen").append(reset_button);
     $("#reset_button").click(resetAll);
     $(".cell").click(cellClicked);
-    fadeSong(1000);
+    fadeSong(10);
     bgmusic=new Audio('sounds/track-2.mp3');
     bgmusic.play();
     sound_war.play();
     $(".count_down_timer *").show();
     startCountDown();
 }
-
-/* set game to initial conditions*/
-var initGame = function () {
-    game_play = true;
-    turn = "X";
-    move_counter = 0;
-    winning_array = [];
-    cells_array = [1];
-    score = {
-        "X" : 0,
-        "O" : 0
-    };
-    startPage();
-};
 
 var callAI = function(){
     startPage3();
@@ -220,7 +222,7 @@ var callAI = function(){
         }
         AI_move.text(turn);
         score[turn] += $(this).data("cell_value");
-        conditionChecker();
+        winConditionChecker();
         $(this).unbind("click");
         $(this).addClass("unclickable");
     }
@@ -264,8 +266,25 @@ var winningScore = function(player_score){
 var cellClicked = function() {
     $(this).text(turn);
     move_counter++;
+    if (move_counter == 5) {
+        changeBackground('wargames-bg2.jpg');
+        fadeSong(2000);
+        setTimeout(function(){
+            bgmusic=new Audio('sounds/track-9.mp3');
+            bgmusic.play();
+            }, 6500);
+        var playitself = new Audio('sounds/learn.mp3');
+        playitself.play();
+    } else if (move_counter == 8) {
+        var learn = new Audio('sounds/learndammit.mp3');
+        learn.play();
+    } else if (move_counter == 12) {
+        var caught = new Audio('sounds/caughtinaloop.mp3');
+        changeBackground('wargames-bg3.jpg');
+        caught.play();
+    }
     score[turn] += $(this).data("cell_value");
-    conditionChecker();
+    winConditionChecker();
     switchPlayers();
     $(this).unbind("click");
     $(this).addClass("unclickable");
@@ -287,8 +306,7 @@ var switchPlayers = function() {
 };
 
 /*Checks winning condition*/
-var conditionChecker = function() {
-    console.log(score[turn]);
+var winConditionChecker = function() {
     if (winningScore(score[turn])){
         if (turn==="X") {
             win_tracker_p1++;
@@ -329,7 +347,7 @@ function gameTie() {
             winning_gif.remove();
             $('#reset_button').toggle();
             // resetAll();
-        }, 6000);
+        }, 8000);
     }, 6000);
 }
 
@@ -341,6 +359,7 @@ function gameWon() {
     fadeSong(1000);
     bgmusic=new Audio('sounds/track-5.mp3');
     bgmusic.play();
+    $('.count_down_timer').css("background-color","transparent");
     var winning_gif=$('<img id="winner" src="images/nukeslaunching.gif">');
     $('#game_screen').append(winning_gif);
     var winning_sound=new Audio('sounds/2400warheads.mp3');
@@ -351,18 +370,15 @@ function gameWon() {
         setTimeout(function(){
         winning_gif.remove();
         $(".count_down_timer *").hide();
-            $('#reset_button').toggle();
-            // resetAll();
+        $('.count_down_timer').css("background-color","black");
+        $('#reset_button').toggle();
         }, 6000);
     }, 6000);
 
 }
 function updateStats(){
-   // if (win_tracker_p1>0){
        $(".value1").text(win_tracker_p1);
-   // }
        $(".value2").text(win_tracker_p2);
-   // }
 }
 
 function resetAll() {
@@ -406,5 +422,6 @@ function startCountDown() {
 $(document).ready(function() {
     // startPage();
     initGame();
+    initialize('images/nukebutton.png',10,10,1);
 });
 
