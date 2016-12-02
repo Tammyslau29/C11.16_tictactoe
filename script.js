@@ -193,7 +193,7 @@ function startPage3() {
 }
 
 function easterEgg() {
-    var egg_sound=['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
+    var egg_sound = ['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
     var sound_number = (Math.floor(Math.random()*5) + 1);
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
     debugger;
@@ -209,11 +209,11 @@ function gameBoard(game_size) {
     var row = "";
     var cell = "";
     var cell_array_counter = 0;
-    for(var x=1; x < game_size * game_size; x++){
+    for(var x = 1; x < game_size * game_size; x++){
         cells_array.push(Math.pow(2, x));
     }
-    $('#bgimg').html('<img src="images/wargames-bg1.jpg" id="bg">');
-    var header=$('<header><img src="images/wopr.jpg"></header>');
+    $('#bgimg').html('<img src="images/wargames-bg1.jpg" id = "bg">');
+    var header=$('<header><img src = "images/wopr.jpg"></header>');
     $("#game_screen").append(header);
     for (var i = 0; i < game_size; i++) {
         if (i === 0) {
@@ -240,12 +240,12 @@ function gameBoard(game_size) {
         }
         $("#game_board").append(row);
     }
-    var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
+    var reset_button = $('<img src="images/nukebutton.png" id = "reset_button">');
     $("#game_screen").append(reset_button);
     $("#reset_button").click(resetAll);
     $(".cell").click(cellClicked);
     fadeSong(10);
-    bgmusic=new Audio('sounds/track-2.mp3');
+    bgmusic = new Audio('sounds/track-2.mp3');
     bgmusic.play();
     sound_war.play();
     $(".count_down_timer *").show();
@@ -285,7 +285,7 @@ var generateWinningNumbers = function(game_size) {
         col_wins[i] = 0;
         first_diag_win += cells[i][i];
         second_diag_win += cells[i][game_size - i - 1];
-        for (j=0; j< game_size; j++){
+        for (j=0; j < game_size; j++){
             row_wins[i] += cells[i][j];
             col_wins[i] += cells[j][i];
         }
@@ -310,7 +310,7 @@ var cellClicked = function() {
         changeBackground('wargames-bg2.jpg');
         fadeSong(2000);
         setTimeout(function(){
-            bgmusic=new Audio('sounds/track-9.mp3');
+            bgmusic = new Audio('sounds/track-9.mp3');
             bgmusic.play();
             }, 6500);
         var playitself = new Audio('sounds/learn.mp3');
@@ -374,12 +374,12 @@ function gameTie() {
     $('header img').remove();
     $(".count_down_timer *").hide();
     fadeSong(1000);
-    bgmusic=new Audio('sounds/track-8.mp3');
+    bgmusic = new Audio('sounds/track-8.mp3');
     bgmusic.play();
-    var winning_gif=$('<img id="winner" src="images/launchcode.gif">');
+    var winning_gif = $('<img id="winner" src="images/launchcode.gif">');
     $('#game_screen').append(winning_gif);
-    var tie_sound=new Audio('sounds/systemsucks.mp3');
-    var tie_sound2=new Audio('sounds/microchips.mp3');
+    var tie_sound = new Audio('sounds/systemsucks.mp3');
+    var tie_sound2 = new Audio('sounds/microchips.mp3');
     tie_sound.play();
     setTimeout(function(){
         tie_sound2.play();
@@ -397,13 +397,13 @@ function gameWon() {
     $('#reset_button').toggle();
     $('header img').remove();
     fadeSong(1000);
-    bgmusic=new Audio('sounds/track-5.mp3');
+    bgmusic = new Audio('sounds/track-5.mp3');
     bgmusic.play();
     $('.count_down_timer').css("background-color","transparent");
-    var winning_gif=$('<img id="winner" src="images/nukeslaunching.gif">');
+    var winning_gif = $('<img id="winner" src="images/nukeslaunching.gif">');
     $('#game_screen').append(winning_gif);
-    var winning_sound=new Audio('sounds/2400warheads.mp3');
-    var winning_sound2=new Audio('sounds/billiantlight.mp3');
+    var winning_sound = new Audio('sounds/2400warheads.mp3');
+    var winning_sound2 = new Audio('sounds/billiantlight.mp3');
     winning_sound.play();
     setTimeout(function(){
         winning_sound2.play();
@@ -513,7 +513,6 @@ function SetLaunchCode() {
     }, 14000000000);
 }
 $(document).ready(function() {
-    // startPage();
     initGame();
 });
 
