@@ -310,12 +310,11 @@ function gameWon() {
 
 }
 function updateStats(){
-   if(win_tracker_p1>0){
+   // if (win_tracker_p1>0){
        $(".value1").text(win_tracker_p1);
-   }
-   else if (win_tracker_p2>0){
+   // }
        $(".value2").text(win_tracker_p2);
-   }
+   // }
 }
 
 function resetAll() {
