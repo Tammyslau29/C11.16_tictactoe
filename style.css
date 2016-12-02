@@ -156,9 +156,15 @@ div.row.top {
     height: 100vh;
     width: 100vw;
 }
-#player1{
-    font-size:25px;
+#player1, #player2{
+    font-size:32px;
+    color: lightblue;
+    display: inline-block;
 }
-#player2{
-    font-size:25px;
+.statsheader{
+    color: lightblue;
+}
+.value1, .value2 {
+    color: greenyellow;
+    font-size: 25px;
 }
