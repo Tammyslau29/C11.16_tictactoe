@@ -166,3 +166,20 @@ div.row.top {
     color: greenyellow;
     font-size: 25px;
 }
+.blocker{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 1000;
+    font-family: "Lucida Console", Monaco, monospace;
+    display: none;
+    background-color: white;
+ }
+@media screen and (max-width: 414px) {
+    .blocker{
+        display:inherit;
+
+    }
+}
