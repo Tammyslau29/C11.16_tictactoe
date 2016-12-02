@@ -10,6 +10,13 @@
     position: absolute;
     z-index: -1;
 }
+header img {
+    height: 15vh;
+    top: 10%;
+    left: 10%;
+    /*transform: translate(-50%,-50%);*/
+    position: absolute;
+}
 body{
     background-color: black;
     overflow: hidden;
@@ -138,6 +145,7 @@ div.row.top {
     padding: 5px;
 }
 #reset_button {
+    height: 25vh;
     bottom: 10%;
     left: 10%;
     position: absolute;
