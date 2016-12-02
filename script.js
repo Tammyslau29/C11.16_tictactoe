@@ -403,10 +403,14 @@ function startCountDown() {
     }
     var t = setTimeout(startCountDown, time);
 }
+function circle(){
+    $("#start_pic")[0].getBoundingClientRect();
+    this.items[0].position
+}
 
 $(document).ready(function() {
     // startPage();
     initGame();
-    initialize('images/nukebutton.png',10,10,1);
+    var leapSensor = initialize('images/nukebutton.png',100,100,1);
 });
 
