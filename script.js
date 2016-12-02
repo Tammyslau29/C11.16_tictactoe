@@ -51,6 +51,7 @@ function startPage() {
     var start_tip = $('<p>Click the image or type tic-tac-toe to play the game!</p>');
     var start_button = $('<img src="images/wargames-fullboard.jpg" id="start_pic">');
     var start_target = $('.startpage');
+    $('#game_screen').hide();
     start_target.append(start_prompt1,start_tip,start_button);              //builds the start page
     $('#players_input').focus();
 
@@ -118,6 +119,7 @@ function startPage3() {
             console.log('game size is ' + game_size);
             if (game_size >= 3 && game_size <= 5) {
                 start_target.remove();
+                $('#game_screen').show();
                 gameBoard(game_size);
                 statsDisplay();
                 updateStats();
@@ -134,13 +136,15 @@ function startPage3() {
 }
 
 function easterEgg() {
+    var egg_sound=['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
+    var sound_number = (Math.floor(Math.random()*5) + 1);
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
     setTimeout(function(){
         $('.startpage').children('img').remove();
         }, 5500);
     $('.startpage').append(egg);
-    var sound_strange = new Audio('sounds/strange.mp3');
-    sound_strange.play();
+    var sound_egg = new Audio('sounds/'+egg_sound[sound_number]);
+    sound_egg.play();
 }
 
 function gameBoard(game_size) {
@@ -151,6 +155,8 @@ function gameBoard(game_size) {
         cells_array.push(Math.pow(2, x));
     }
     $('#bgimg').html('<img src="images/wargames-bg1.jpg" id="bg">');
+    var header=$('<header><img src="images/wopr.jpg"></header>');
+    $("#game_screen").append(header);
     for (var i = 0; i < game_size; i++) {
         if (i === 0) {
             row = $("<div>").addClass("row").addClass('top');
@@ -161,7 +167,7 @@ function gameBoard(game_size) {
         else {
             row = $("<div>").addClass("row").addClass('middle');
         }
-        $("#game_board").append(row);
+        // $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
             if (j === 0) {
                 cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
@@ -174,6 +180,7 @@ function gameBoard(game_size) {
             }
             row.append(cell);
         }
+        $("#game_board").append(row);
     }
     var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
     $("#game_screen").append(reset_button);
@@ -188,10 +195,6 @@ function gameBoard(game_size) {
 /* set game to initial conditions*/
 var initGame = function () {
     turn = "X";
-    // score = {
-    //     "X" : 0,
-    //     "O" : 0
-    // };
     move_counter = 0;
     winning_array = [];
     cells_array = [1];
@@ -289,6 +292,7 @@ var conditionChecker = function() {
 function gameTie() {
     $('#game_board *').remove();
     $('#reset_button').toggle();
+    $('header img').remove();
     fadeSong(1000);
     bgmusic=new Audio('sounds/track-8.mp3');
     bgmusic.play();
@@ -310,6 +314,7 @@ function gameTie() {
 function gameWon() {
     $('#game_board *').remove();
     $('#reset_button').toggle();
+    $('header img').remove();
     fadeSong(1000);
     bgmusic=new Audio('sounds/track-5.mp3');
     bgmusic.play();
@@ -342,6 +347,7 @@ function resetAll() {
     $('#bgimg img').remove();
     $('.statscontainer').remove();
     $('#reset_button').remove();
+    $('header img').remove();
     initGame();
 }
 
