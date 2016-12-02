@@ -12,7 +12,7 @@ var win_tracker_p2 = 0;
 var num_players;
 var game_play;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
-var time = 300;
+var time = 40;
 
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
@@ -445,34 +445,33 @@ function startCountDown() {
         }
     }
     var t = setTimeout(startCountDown, time);
-    removeClass();
+    SetLaunchCode();
 }
 
-function removeClass() {
+function SetLaunchCode() {
     console.log("remove class function");
     setTimeout(function () {
         $("#char_1").addClass('dontanimate');
-    }, 2000);
-    setTimeout(function () {
-        $("#char_2").addClass('dontanimate');
-    }, 4000);
-    setTimeout(function () {
-        $("#char_3").addClass('dontanimate');
-    }, 6000);
-    setTimeout(function () {
-        $("#char_4").addClass('dontanimate');
-    }, 8000);
-    setTimeout(function () {
-        $("#char_5").addClass('dontanimate');
     }, 10000);
     setTimeout(function () {
+        $("#char_2").addClass('dontanimate');
+    }, 20000);
+    setTimeout(function () {
+        $("#char_3").addClass('dontanimate');
+    }, 30000);
+    setTimeout(function () {
+        $("#char_4").addClass('dontanimate');
+    }, 40000);
+    setTimeout(function () {
+        $("#char_5").addClass('dontanimate');
+    }, 50000);
+    setTimeout(function () {
         $("#char_6").addClass('dontanimate');
-    }, 12000);
+    }, 60000);
     setTimeout(function () {
         $("#char_7").addClass('dontanimate');
-    }, 1400);
+    }, 14000000000);
 }
-
 $(document).ready(function() {
     // startPage();
     initGame();
