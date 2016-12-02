@@ -407,5 +407,6 @@ function startCountDown() {
 $(document).ready(function() {
     // startPage();
     initGame();
+    initialize('images/nukebutton.png',10,10,1);
 });
 
