@@ -12,7 +12,7 @@ var win_tracker_p2 = 0;
 var num_players;
 var game_play;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
-var time = 300;
+var time = 40;
 
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
@@ -410,17 +410,69 @@ function startCountDown() {
     var g = randomizeCodes();
     if (game_play === true) {
         $("#launch_title").text("Launch Codes:");
-        $("#char_1").text(a);
-        $("#char_2").text(b);
-        $("#char_3").text(c);
-        $("#char_4").text(d);
-        $("#char_5").text(e);
-        $("#char_6").text(f);
-        $("#char_7").text(g);
+        if (!$("#char_1").hasClass('dontanimate')) {
+            $("#char_1").text(a);
+        } else{
+            $("#char_1").text("A");
+        }
+        if (!$("#char_2").hasClass('dontanimate')) {
+            $("#char_2").text(b);
+        } else {
+            $("#char_2").text('Q');
+        }
+        if (!$("#char_3").hasClass('dontanimate')) {
+            $("#char_3").text(c);
+        } else{
+            $("#char_3").text('Z');
+        }
+        if (!$("#char_4").hasClass('dontanimate')) {
+            $("#char_4").text(d);
+        } else{
+            $("#char_4").text('1');
+        }if (!$("#char_5").hasClass('dontanimate')) {
+            $("#char_5").text(e);
+        } else {
+            $("#char_5").text('5');
+        }
+        if (!$("#char_6").hasClass('dontanimate')) {
+            $("#char_6").text(f);
+        } else{
+            $("#char_6").text('Z');
+        }
+        if (!$("#char_7").hasClass('dontanimate')) {
+            $("#char_7").text(g);
+        } else {
+            $("#char_7").text('M');
+        }
     }
     var t = setTimeout(startCountDown, time);
+    SetLaunchCode();
 }
 
+function SetLaunchCode() {
+    console.log("remove class function");
+    setTimeout(function () {
+        $("#char_1").addClass('dontanimate');
+    }, 10000);
+    setTimeout(function () {
+        $("#char_2").addClass('dontanimate');
+    }, 20000);
+    setTimeout(function () {
+        $("#char_3").addClass('dontanimate');
+    }, 30000);
+    setTimeout(function () {
+        $("#char_4").addClass('dontanimate');
+    }, 40000);
+    setTimeout(function () {
+        $("#char_5").addClass('dontanimate');
+    }, 50000);
+    setTimeout(function () {
+        $("#char_6").addClass('dontanimate');
+    }, 60000);
+    setTimeout(function () {
+        $("#char_7").addClass('dontanimate');
+    }, 14000000000);
+}
 $(document).ready(function() {
     // startPage();
     initGame();
