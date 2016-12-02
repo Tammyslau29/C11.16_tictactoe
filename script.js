@@ -13,7 +13,6 @@ var num_players;
 var game_play;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
 var time = 40;
-
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
 var sound_fine = new Audio("sounds/fine.mp3");
 var sound_excellent = new Audio("sounds/excellent.mp3");
@@ -21,6 +20,7 @@ var sound_already = new Audio("sounds/alreadychanged.mp3");
 var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
+
 
 function fadeSong(duration) {
     if (!duration) {
@@ -63,8 +63,47 @@ var initGame = function () {
         "X" : 0,
         "O" : 0
     };
-    startPage();
+    startPage0();
 };
+
+function startPage0() {
+    $('#game_screen').hide();
+    bgmusic = new Audio("sounds/introsong.mp3");
+    bgmusic.play();
+    var start_page0 = $('<div>').addClass('startpage0');
+    $('body').append(start_page0);
+    var intro_warning = $('<h1 style="color: white">Please make sure your volume is up and your browser is full screen before continuing.<p>Tip- F11 in Chrome</p><p>If you have a leap motion controller <span id="warning_click">CLICK HERE.</span></p><p>If not, <span id="warning_click2">CLICK HERE.</span></p></h1>');
+    $('.startpage0').append(intro_warning);
+    $('#warning_click').click(function(){
+        initialize("",0,0,1);
+        startPage0_1();
+    });
+    $('#warning_click2').click(startPage0_2);
+}
+
+function startPage0_1() {
+    $('.startpage0 *').remove();
+    var start_page0_img = $('<img src="images/newstartbg2.png">');
+    $('.startpage0').append(start_page0_img);
+    var sound_tammy = new Audio("sounds/tammy1.mp3");
+    sound_tammy.play();
+}
+
+function startPage0_2() {
+    $('.startpage0 *').remove();
+    start_page0_img = $('<img id="hypno" src="images/hypnocircle.gif">');
+    $('.startpage0').append(start_page0_img);
+    var sound_tammy2 = new Audio("sounds/tammy2.mp3");
+    sound_tammy2.play();
+    setTimeout(function(){
+        $('#hypno').fadeOut();
+        setTimeout(function() {
+            $('.startpage0').remove();
+            startPage();
+        },500)
+    },5000);
+}
+
 function startPage() {
     fadeSong(2000);
     bgmusic=new Audio("sounds/wargames-theme.mp3");
@@ -83,7 +122,7 @@ function startPage() {
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            if ($('#players_input').val() == "tic-tac-toe") {
+            if ($('#players_input').val().toLowerCase() == "tic-tac-toe") {
                 startPage2();
             }
         }
@@ -154,13 +193,14 @@ function startPage3() {
 }
 
 function easterEgg() {
-    var egg_sound=['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
+    var egg_sound = ['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
     var sound_number = (Math.floor(Math.random()*5) + 1);
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
+    debugger;
+    $('.startpage').append(egg);
     setTimeout(function(){
         $('.startpage').children('img').remove();
         }, 5500);
-    $('.startpage').append(egg);
     var sound_egg = new Audio('sounds/'+egg_sound[sound_number]);
     sound_egg.play();
 }
@@ -169,11 +209,11 @@ function gameBoard(game_size) {
     var row = "";
     var cell = "";
     var cell_array_counter = 0;
-    for(var x=1; x < game_size * game_size; x++){
+    for(var x = 1; x < game_size * game_size; x++){
         cells_array.push(Math.pow(2, x));
     }
-    $('#bgimg').html('<img src="images/wargames-bg1.jpg" id="bg">');
-    var header=$('<header><img src="images/wopr.jpg"></header>');
+    $('#bgimg').html('<img src="images/wargames-bg1.jpg" id = "bg">');
+    var header=$('<header><img src = "images/wopr.jpg"></header>');
     $("#game_screen").append(header);
     for (var i = 0; i < game_size; i++) {
         if (i === 0) {
@@ -200,12 +240,12 @@ function gameBoard(game_size) {
         }
         $("#game_board").append(row);
     }
-    var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
+    var reset_button = $('<img src="images/nukebutton.png" id = "reset_button">');
     $("#game_screen").append(reset_button);
     $("#reset_button").click(resetAll);
     $(".cell").click(cellClicked);
     fadeSong(10);
-    bgmusic=new Audio('sounds/track-2.mp3');
+    bgmusic = new Audio('sounds/track-2.mp3');
     bgmusic.play();
     sound_war.play();
     $(".count_down_timer *").show();
@@ -245,7 +285,7 @@ var generateWinningNumbers = function(game_size) {
         col_wins[i] = 0;
         first_diag_win += cells[i][i];
         second_diag_win += cells[i][game_size - i - 1];
-        for (j=0; j< game_size; j++){
+        for (j=0; j < game_size; j++){
             row_wins[i] += cells[i][j];
             col_wins[i] += cells[j][i];
         }
@@ -270,7 +310,7 @@ var cellClicked = function() {
         changeBackground('wargames-bg2.jpg');
         fadeSong(2000);
         setTimeout(function(){
-            bgmusic=new Audio('sounds/track-9.mp3');
+            bgmusic = new Audio('sounds/track-9.mp3');
             bgmusic.play();
             }, 6500);
         var playitself = new Audio('sounds/learn.mp3');
@@ -334,12 +374,12 @@ function gameTie() {
     $('header img').remove();
     $(".count_down_timer *").hide();
     fadeSong(1000);
-    bgmusic=new Audio('sounds/track-8.mp3');
+    bgmusic = new Audio('sounds/track-8.mp3');
     bgmusic.play();
-    var winning_gif=$('<img id="winner" src="images/launchcode.gif">');
+    var winning_gif = $('<img id="winner" src="images/launchcode.gif">');
     $('#game_screen').append(winning_gif);
-    var tie_sound=new Audio('sounds/systemsucks.mp3');
-    var tie_sound2=new Audio('sounds/microchips.mp3');
+    var tie_sound = new Audio('sounds/systemsucks.mp3');
+    var tie_sound2 = new Audio('sounds/microchips.mp3');
     tie_sound.play();
     setTimeout(function(){
         tie_sound2.play();
@@ -357,13 +397,13 @@ function gameWon() {
     $('#reset_button').toggle();
     $('header img').remove();
     fadeSong(1000);
-    bgmusic=new Audio('sounds/track-5.mp3');
+    bgmusic = new Audio('sounds/track-5.mp3');
     bgmusic.play();
     $('.count_down_timer').css("background-color","transparent");
-    var winning_gif=$('<img id="winner" src="images/nukeslaunching.gif">');
+    var winning_gif = $('<img id="winner" src="images/nukeslaunching.gif">');
     $('#game_screen').append(winning_gif);
-    var winning_sound=new Audio('sounds/2400warheads.mp3');
-    var winning_sound2=new Audio('sounds/billiantlight.mp3');
+    var winning_sound = new Audio('sounds/2400warheads.mp3');
+    var winning_sound2 = new Audio('sounds/billiantlight.mp3');
     winning_sound.play();
     setTimeout(function(){
         winning_sound2.play();
@@ -473,8 +513,6 @@ function SetLaunchCode() {
     }, 14000000000);
 }
 $(document).ready(function() {
-    // startPage();
     initGame();
-    initialize('images/nukebutton.png',10,10,1);
 });
 

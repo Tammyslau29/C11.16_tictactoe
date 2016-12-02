@@ -1,4 +1,5 @@
 var items = {};
+var counter =0;
 
 var Item = function(imgSrc, height, width, sensitivity) {
     var item = this;
@@ -14,7 +15,7 @@ var Item = function(imgSrc, height, width, sensitivity) {
     img.onload = function () {
         item.setTransform([window.innerWidth/2,window.innerHeight/2], 0);
         document.body.appendChild(img);
-    }
+    };
 
     item.setTransform = function(position, rotation) {
 
@@ -35,32 +36,30 @@ var Item = function(imgSrc, height, width, sensitivity) {
 };
 
 var controllerOptions = {enableGestures: true};
-
 var initialize = function(imgSrc, width, height, sensitivity, imgSrc2, width2, height2) {
 
     var api = {};
 
-    Leap.loop(controllerOptions, function(frame) {
+        Leap.loop(controllerOptions, function(frame) {
 
-        if(frame.valid && frame.gestures.length > 0){
-            frame.gestures.forEach(function(gesture){
-                switch (gesture.type){
-                    case "circle":
-                        api.circle ? api.circle() : console.log('no circle gesture function created');
-                        break;
-                    case "keyTap":
-                        api.keyTap ? api.keyTap() : console.log('no key tap gesture function created');
-                        break;
-                    case "screenTap":
-                        api.screenTap ? api.screenTap() : console.log('no screen tap gesture function created');
-                        break;
-                    case "swipe":
-                        api.swipe ? api.swipe() : console.log('no swipe gesture function created');
-                        break;
-                }
-            });
-        }
-
+            if (frame.valid && frame.gestures.length > 0) {
+                frame.gestures.forEach(function (gesture) {
+                    switch (gesture.type) {
+                        case "circle":
+                            api.circle ? api.circle() : console.log('no circle gesture function created');
+                            break;
+                        case "keyTap":
+                            api.keyTap ? api.keyTap() : console.log('no key tap gesture function created');
+                            break;
+                        case "screenTap":
+                            api.screenTap ? api.screenTap() : console.log('no screen tap gesture function created');
+                            break;
+                        case "swipe":
+                            api.swipe ? api.swipe() : console.log('no swipe gesture function created');
+                            break;
+                    }
+                });
+            }
 
         frame.hands.forEach(function(hand, index) {
 
@@ -72,6 +71,14 @@ var initialize = function(imgSrc, width, height, sensitivity, imgSrc2, width2, h
             item.setTransform(hand.screenPosition(), hand.roll());
 
         });
+
+        api.circle = function () {
+            counter++;
+            console.log(counter);
+            if (counter == 50) {
+                startPage0_2();
+            }
+        }
 
     }).use('screenPosition', {scale: 1});
 

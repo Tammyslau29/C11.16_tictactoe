@@ -108,11 +108,11 @@ body{
     border-right: none;
 }
 #egg {
-    height: 50%;
-    /*width: 50%;*/
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    /*transform: translate(-50%,-50%);*/
     position: absolute;
 }
 .statscontainer {
@@ -133,8 +133,8 @@ body{
     height: 1.7vw;
     /*width: 200px;*/
     color: red;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.7vw;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2vw;
     position: absolute;
     left: 50%;
     top: 56px;
@@ -180,5 +180,20 @@ body{
     .blocker{
         display:inherit;
     }
+}
+#hypno {
+    width: 100vw;
+    height: 100vh;
+}
+#warning_click, #warning_click2 {
+    color: red;
+}
+#warning_click:hover, #warning_click2:hover {
+    text-decoration: underline;
+}
+
+.startpage0 h1 {
+    text-align: center;
+    font-family: 'Dosis', sans-serif;
 }
 
