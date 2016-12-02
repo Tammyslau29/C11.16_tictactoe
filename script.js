@@ -16,7 +16,10 @@ var sound_already = new Audio("sounds/alreadychanged.mp3");
 var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
-
+var num_players;
+var game_play;
+var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
+var time = 300;
 
 function fadeSong(duration) {
     if (!duration) {
@@ -51,6 +54,7 @@ function startPage() {
     var start_tip = $('<p>Click the image or type tic-tac-toe to play the game!</p>');
     var start_button = $('<img src="images/wargames-fullboard.jpg" id="start_pic">');
     var start_target = $('.startpage');
+    $('#game_screen').hide();
     start_target.append(start_prompt1,start_tip,start_button);              //builds the start page
     $('#players_input').focus();
 
@@ -89,12 +93,14 @@ function startPage2() {
     $('#players_input_num_players').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            var num_players = $('#players_input_num_players').val();
             console.log("number of players= " + num_players + typeof (num_players));
+            num_players = $('#players_input_num_players').val();
             if (num_players =='2' || num_players == 'two') {
                 startPage3();
             } else if (num_players =='0' || num_players =='zero') {
                 easterEgg();
+            // } else if(num_players =="1" || num_players =="one"){
+            //    callAI();
             } else {
                 var warning=$('<p>Tic-Tac-Toe can only be played with two players. Please try again.</p>');
                 start_target.append(warning);
@@ -118,6 +124,7 @@ function startPage3() {
             console.log('game size is ' + game_size);
             if (game_size >= 3 && game_size <= 5) {
                 start_target.remove();
+                $('#game_screen').show();
                 gameBoard(game_size);
                 statsDisplay();
                 updateStats();
@@ -133,13 +140,15 @@ function startPage3() {
 }
 
 function easterEgg() {
+    var egg_sound=['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
+    var sound_number = (Math.floor(Math.random()*5) + 1);
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
     setTimeout(function(){
         $('.startpage').children('img').remove();
         }, 5500);
     $('.startpage').append(egg);
-    var sound_strange = new Audio('sounds/strange.mp3');
-    sound_strange.play();
+    var sound_egg = new Audio('sounds/'+egg_sound[sound_number]);
+    sound_egg.play();
 }
 
 function gameBoard(game_size) {
@@ -150,6 +159,8 @@ function gameBoard(game_size) {
         cells_array.push(Math.pow(2, x));
     }
     $('#bgimg').html('<img src="images/wargames-bg1.jpg" id="bg">');
+    var header=$('<header><img src="images/wopr.jpg"></header>');
+    $("#game_screen").append(header);
     for (var i = 0; i < game_size; i++) {
         if (i === 0) {
             row = $("<div>").addClass("row").addClass('top');
@@ -160,7 +171,7 @@ function gameBoard(game_size) {
         else {
             row = $("<div>").addClass("row").addClass('middle');
         }
-        $("#game_board").append(row);
+        // $("#game_board").append(row);
         for (j = 0; j < game_size; j++) {
             if (j === 0) {
                 cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
@@ -173,6 +184,7 @@ function gameBoard(game_size) {
             }
             row.append(cell);
         }
+        $("#game_board").append(row);
     }
     var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
     $("#game_screen").append(reset_button);
@@ -182,15 +194,14 @@ function gameBoard(game_size) {
     bgmusic=new Audio('sounds/track-2.mp3');
     bgmusic.play();
     sound_war.play();
+    $(".count_down_timer *").show();
+    startCountDown();
 }
 
 /* set game to initial conditions*/
 var initGame = function () {
+    game_play = true;
     turn = "X";
-    // score = {
-    //     "X" : 0,
-    //     "O" : 0
-    // };
     move_counter = 0;
     winning_array = [];
     cells_array = [1];
@@ -200,7 +211,22 @@ var initGame = function () {
     };
     startPage();
 };
-
+var callAI = function(){
+    startPage3();
+    initGame();
+    if (turn = "O") {
+        var AI_move = cells_array[Math.floor(Math.random()*(game_size*game_size))];
+        if (AI_move.hasClass("unclickable")){
+            AI_move;
+        }
+        AI_move.text(turn);
+        score[turn] += $(this).data("cell_value");
+        conditionChecker();
+        $(this).unbind("click");
+        $(this).addClass("unclickable");
+    }
+    switchPlayers();
+};
 /*Generate array of winning numbers*/
 var generateWinningNumbers = function(game_size) {
     var val = 1, cells = [], wins = [];
@@ -268,23 +294,49 @@ var conditionChecker = function() {
             win_tracker_p1++;
             updateStats();
             gameWon();
+            game_play= false;
         } else if (turn==="O") {
             win_tracker_p2++;
+            game_play = false;
             updateStats();
             gameWon();
         }
         updateStats();
         // initGame();
-
     }  else if (move_counter === (game_size * game_size)){
-        alert("Cat's Game");
+        game_play = false;
+        gameTie();
         // initGame();
     }
 };
-
-function gameWon() {
+function gameTie() {
     $('#game_board *').remove();
     $('#reset_button').toggle();
+    $('header img').remove();
+    $(".count_down_timer *").hide();
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-8.mp3');
+    bgmusic.play();
+    var winning_gif=$('<img id="winner" src="images/launchcode.gif">');
+    $('#game_screen').append(winning_gif);
+    var tie_sound=new Audio('sounds/systemsucks.mp3');
+    var tie_sound2=new Audio('sounds/microchips.mp3');
+    tie_sound.play();
+    setTimeout(function(){
+        tie_sound2.play();
+        setTimeout(function(){
+            winning_gif.remove();
+            $('#reset_button').toggle();
+            // resetAll();
+        }, 6000);
+    }, 6000);
+}
+
+function gameWon() {
+    time = time/2;
+    $('#game_board *').remove();
+    $('#reset_button').toggle();
+    $('header img').remove();
     fadeSong(1000);
     bgmusic=new Audio('sounds/track-5.mp3');
     bgmusic.play();
@@ -297,6 +349,7 @@ function gameWon() {
         winning_sound2.play();
         setTimeout(function(){
         winning_gif.remove();
+        $(".count_down_timer *").hide();
             $('#reset_button').toggle();
             // resetAll();
         }, 6000);
@@ -317,16 +370,39 @@ function resetAll() {
     $('#bgimg img').remove();
     $('.statscontainer').remove();
     $('#reset_button').remove();
+    $('header img').remove();
+    $(".count_down_timer *").hide();
     initGame();
 }
 
 function resetBoard() {
     gameBoard();
 }
-
+function randomizeCodes(){
+    return launch_codes_array[(Math.floor(Math.random()*7))];
+}
+function startCountDown() {
+    var a = randomizeCodes();
+    var b = randomizeCodes();
+    var c = randomizeCodes();
+    var d = randomizeCodes();
+    var e = randomizeCodes();
+    var f = randomizeCodes();
+    var g = randomizeCodes();
+    if (game_play === true) {
+        $("#launch_title").text("Launch Codes:");
+        $("#char_1").text(a);
+        $("#char_2").text(b);
+        $("#char_3").text(c);
+        $("#char_4").text(d);
+        $("#char_5").text(e);
+        $("#char_6").text(f);
+        $("#char_7").text(g);
+    }
+    var t = setTimeout(startCountDown, time);
+}
 $(document).ready(function() {
     // startPage();
     initGame();
-
 });
 
