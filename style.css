@@ -58,10 +58,6 @@ body{
     width: 100%;
     text-align: center;
 }
-div.row.top {
-    /*margin-top: 20%;
-    this works for 5way table.  Need to apply dynamically in js instead*/
-}
 .startpage {
     width: 97vw;
     height: 93vh;
@@ -165,7 +161,7 @@ div.row.top {
     color: lightblue;
 }
 .value1, .value2 {
-    color: greenyellow;
+    color: red;
     font-size: 25px;
 }
 .blocker{
@@ -180,9 +176,8 @@ div.row.top {
     background-color: white;
     text-align: center;
  }
-@media screen and (max-width: 414px) {
+@media screen and (max-width: 500px) {
     .blocker{
         display:inherit;
-
     }
 }

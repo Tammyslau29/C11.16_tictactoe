@@ -79,8 +79,6 @@ function statsDisplay() {
     var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
     var stats_target = $(".stats_container");
     stats_container.append(stats_head,player_container,player1,player2);
-
-
 }
 
 function startPage2() {
