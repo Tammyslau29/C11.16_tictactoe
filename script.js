@@ -11,6 +11,7 @@ var win_tracker_p1 = 0;
 var win_tracker_p2 = 0;
 var num_players;
 var game_play;
+var game_won = false;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
 var time = 40;
 var bgmusic = new Audio("sounds/wargames-theme.mp3");
@@ -46,8 +47,8 @@ function statsDisplay() {
     $('body').append(stats_container);
     var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
     var player_container=$("<div>").addClass("playercontainer");
-    var player1= $(player_container).append('<div id="player1">Player 1</div><p class="value1"></p>');
-    var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
+    var player1= $(player_container).append('<div id="player1"></div><p class="value1"></p>');
+    var player2= $(player_container).append('<div id="player2"></div><p class="value2"></p>');
     // var stats_target = $(".stats_container");
     stats_container.append(stats_head,player_container,player1,player2);
 }
@@ -181,8 +182,8 @@ function startPage3() {
                 gameBoard(game_size);
                 statsDisplay();
                 updateStats();
-                $('#player1').css({"color":"white","background-color":"green"});
-                $('#player2').css({"color":"lightblue","background-color":"inherit"});
+                $('#player1').css({"border":"5px solid lightblue", "opacity" : "1"});
+                $('#player2').css({"border":"none", "opacity" : "0.5"});
             } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
                 sound_already.play();
@@ -325,24 +326,26 @@ var cellClicked = function() {
     }
     score[turn] += $(this).data("cell_value");
     winConditionChecker();
-    switchPlayers();
+    if(game_won === false){
+        switchPlayers();
+    }
     $(this).unbind("click");
     $(this).addClass("unclickable");
 };
 
 /*Switch players*/
 var switchPlayers = function() {
-    if (turn === "X"){
-        turn = "O";
-        //player2
-        $('#player2').css({"color":"white","background-color":"green"});
-        $('#player1').css({"color":"lightblue","background-color":"inherit"});
-    }else{
-        turn = "X";
-        //player1
-        $('#player1').css({"color":"white","background-color":"green"});
-        $('#player2').css({"color":"lightblue","background-color":"inherit"});
-    }
+        if (turn === "X") {
+            turn = "O";
+            //player2
+            $('#player1').css({"border": "none", "opacity": "0.5"});
+            $('#player2').css({"border": "5px solid lightblue", "opacity": "1"});
+        } else {
+            turn = "X";
+            //player1
+            $('#player1').css({"border": "5px solid lightblue", "opacity": "1"});
+            $('#player2').css({"border": "none", "opacity": "0.5"});
+        }
 };
 
 /*Checks winning condition*/
@@ -393,6 +396,12 @@ function gameTie() {
 
 function gameWon() {
     time = time/2;
+    game_won = true;
+    if(turn == "X"){
+        $("#player2").css("opacity" , "1");
+    }else {
+        $("#player1").css("opacity" , "1");
+    }
     $('#game_board *').remove();
     $('#reset_button').toggle();
     $('header img').remove();
@@ -412,6 +421,7 @@ function gameWon() {
         $(".count_down_timer *").hide();
         $('.count_down_timer').css("background-color","black");
         $('#reset_button').toggle();
+        game_won = false;
         }, 6000);
     }, 6000);
 

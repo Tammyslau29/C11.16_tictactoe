@@ -191,9 +191,19 @@ body{
 #warning_click:hover, #warning_click2:hover {
     text-decoration: underline;
 }
-
 .startpage0 h1 {
     text-align: center;
     font-family: 'Dosis', sans-serif;
+}
+#player1, #player2{
+    background-position: center;
+    height: 106px;
+    width: 186px;
+}
+#player2{
+    background-image: url("images/ussrflag.jpeg");
+}
+#player1{
+    background-image: url("images/usaflag.jpeg");
 }
 
