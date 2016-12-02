@@ -73,7 +73,7 @@ function startPage0() {
     bgmusic.play();
     var start_page0 = $('<div>').addClass('startpage0');
     $('body').append(start_page0);
-    var intro_warning = $('<h3 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.</h3>');
+    var intro_warning = $('<h3 style="color: white">Please make sure your volume is up and your browser is full screen before you <span id="warning_click">CLICK HERE</span>.  Tip- F11 in Chrome</h3>');
     $('.startpage0').append(intro_warning);
     $('#warning_click').click(startPage0_1);
 }
@@ -82,16 +82,23 @@ function startPage0_1() {
     $('.startpage0 *').remove();
     var start_page0_img = $('<img src="images/photoshopcircle.jpg">');
     $('.startpage0').append(start_page0_img);
-    // var sound_tammy = new Audio("sounds/tammy1.mp3");
-    // sound_tammy.play();
-    // if they draw a circle.. {
-    // $('.startpage0 *').remove();
-    // start_page0_img = $('<img src="images/hypnocircle.gif">');
-    // $('.startpage0').append(start_page0_img);
-    // var sound_tammy2 = new Audio("sounds/tammy2.mp3");
-    // sound_tammy2.play();
-    // $('.startpage0').remove();
-    // startPage(); };
+    var sound_tammy = new Audio("sounds/tammy1.mp3");
+    sound_tammy.play();
+}
+
+function startPage0_2() {
+    $('.startpage0 *').remove();
+    start_page0_img = $('<img id="hypno" src="images/hypnocircle.gif">');
+    $('.startpage0').append(start_page0_img);
+    var sound_tammy2 = new Audio("sounds/tammy2.mp3");
+    sound_tammy2.play();
+    setTimeout(function(){
+        $('#hypno').fadeOut();
+        setTimeout(function() {
+            $('.startpage0').remove();
+            startPage();
+        },500)
+    },5000);
 }
 
 function startPage() {
@@ -112,7 +119,7 @@ function startPage() {
     $('#players_input').keypress(function (event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
-            if ($('#players_input').val() == "tic-tac-toe") {
+            if ($('#players_input').val().toLowerCase() == "tic-tac-toe") {
                 startPage2();
             }
         }
@@ -186,10 +193,11 @@ function easterEgg() {
     var egg_sound=['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
     var sound_number = (Math.floor(Math.random()*5) + 1);
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
+    debugger;
+    $('.startpage').append(egg);
     setTimeout(function(){
         $('.startpage').children('img').remove();
         }, 5500);
-    $('.startpage').append(egg);
     var sound_egg = new Audio('sounds/'+egg_sound[sound_number]);
     sound_egg.play();
 }
