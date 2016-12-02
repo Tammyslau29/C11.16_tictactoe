@@ -32,10 +32,13 @@ function fadeSong(duration) {
 }
 
 function changeBackground(new_bg) {
-    bgimg.fadeOut();
-    new_bg = 'images/' + new_bg;
-    bgimg.html('<img src = "'+new_bg+'" id="bg">');
-    bgimg.fadeIn()
+    bg=$("#bgimg");
+    bg.fadeOut();
+    setTimeout(function(){
+        new_bg = 'images/' + new_bg;
+        bg.html('<img src = "'+new_bg+'" id="bg">');
+        bg.fadeIn()
+    }, 500);
 }
 
 function statsDisplay() {
@@ -263,6 +266,23 @@ var winningScore = function(player_score){
 var cellClicked = function() {
     $(this).text(turn);
     move_counter++;
+    if (move_counter == 5) {
+        changeBackground('wargames-bg2.jpg');
+        fadeSong(2000);
+        setTimeout(function(){
+            bgmusic=new Audio('sounds/track-9.mp3');
+            bgmusic.play();
+            }, 6500);
+        var playitself = new Audio('sounds/learn.mp3');
+        playitself.play();
+    } else if (move_counter == 8) {
+        var learn = new Audio('sounds/learndammit.mp3');
+        learn.play();
+    } else if (move_counter == 12) {
+        var caught = new Audio('sounds/caughtinaloop.mp3');
+        changeBackground('wargames-bg3.jpg');
+        caught.play();
+    }
     score[turn] += $(this).data("cell_value");
     winConditionChecker();
     switchPlayers();
@@ -327,7 +347,7 @@ function gameTie() {
             winning_gif.remove();
             $('#reset_button').toggle();
             // resetAll();
-        }, 6000);
+        }, 8000);
     }, 6000);
 }
 
