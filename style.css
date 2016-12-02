@@ -130,7 +130,7 @@ body{
     color: green;
 }
 .count_down_timer {
-    height: 50px;
+    height: 1.7vw;
     /*width: 200px;*/
     color: red;
     font-family: 'Press Start 2P', cursive;
