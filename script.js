@@ -19,6 +19,7 @@ var bgimg = "images/wargames-bg1.jpg";
 var num_players;
 var game_play;
 var launch_codes_array = ["A", "Q", "Z" ,"1", "5", "Z","6", "W", "M", "4"];
+var time = 300;
 
 function fadeSong(duration) {
     if (!duration) {
@@ -43,6 +44,8 @@ function changeBackground(new_bg) {
 }
 
 function startPage() {
+    fadeSong(2000);
+    bgmusic=new Audio("sounds/wargames-theme.mp3");
     bgmusic.play();
     sound_playgame.play();
     var start_page = $('<div>').addClass('startpage');
@@ -71,8 +74,8 @@ function statsDisplay() {
     $('body').append(stats_container);
     var stats_head = $("<h1> Stats</h1>").addClass("statsheader");
     var player_container=$("<div>").addClass("playercontainer");
-    var player1= $(player_container).append('<h2 id="player1">Player 1</h2><p class="value1"></p>');
-    var player2= $(player_container).append('<h2 id="player2">Player 2</h2><p class="value2"></p>');
+    var player1= $(player_container).append('<div id="player1">Player 1</div><p class="value1"></p>');
+    var player2= $(player_container).append('<div id="player2">Player 2</div><p class="value2"></p>');
     var stats_target = $(".stats_container");
     stats_container.append(stats_head,player_container,player1,player2);
 
@@ -123,6 +126,8 @@ function startPage3() {
                 gameBoard(game_size);
                 statsDisplay();
                 updateStats();
+                $('#player1').css({"font-weight":"bold","font-size": "42px"});
+                $('#player2').css({"font-weight":"none","font-size":"25px"});
 
             } else {
                 var game_size_warning = $('<p>Please enter a value between 3 and 5.</p>');
@@ -175,8 +180,15 @@ function gameBoard(game_size) {
             row.append(cell);
         }
     }
+    var reset_button=$('<img src="images/nukebutton.png" id="reset_button">');
+    $("#game_screen").append(reset_button);
+    $("#reset_button").click(resetAll);
     $(".cell").click(cellClicked);
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-2.mp3');
+    bgmusic.play();
     sound_war.play();
+    $(".count_down_timer *").show();
     startCountDown();
 }
 
@@ -261,8 +273,18 @@ var cellClicked = function() {
 var switchPlayers = function() {
     if (turn === "X"){
         turn = "O";
-    }else {
-        turn = "X"
+        //player2
+        $('#player2').css({"font-weight":"bold","font-size": "42px"});
+        $('#player1').css({"font-weight":"none","font-size":"25px"});
+
+
+
+    }else{
+        turn = "X";
+        //player1
+        $('#player1').css({"font-weight":"bold","font-size": "42px"});
+        $('#player2').css({"font-weight":"none","font-size":"25px"});
+
     }
 };
 
@@ -270,36 +292,85 @@ var switchPlayers = function() {
 var conditionChecker = function() {
     console.log(score[turn]);
     if (winningScore(score[turn])){
-        alert("You Win");
         if (turn==="X") {
             win_tracker_p1++;
-            game_play = false;
+            updateStats();
+            gameWon();
+            game_play= false;
         } else if (turn==="O") {
             win_tracker_p2++;
             game_play = false;
+            updateStats();
+            gameWon();
         }
         updateStats();
         // initGame();
-
     }  else if (move_counter === (game_size * game_size)){
-        alert("Cat's Game");
+        game_play = false;
+        gameTie();
         // initGame();
     }
 };
+function gameTie() {
+    $('#game_board *').remove();
+    $('#reset_button').toggle();
+    $(".count_down_timer *").hide();
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-8.mp3');
+    bgmusic.play();
+    var winning_gif=$('<img id="winner" src="images/launchcode.gif">');
+    $('#game_screen').append(winning_gif);
+    var tie_sound=new Audio('sounds/systemsucks.mp3');
+    var tie_sound2=new Audio('sounds/microchips.mp3');
+    tie_sound.play();
+    setTimeout(function(){
+        tie_sound2.play();
+        setTimeout(function(){
+            winning_gif.remove();
+            $('#reset_button').toggle();
+            // resetAll();
+        }, 6000);
+    }, 6000);
+}
 
+function gameWon() {
+    time = time/2;
+    $('#game_board *').remove();
+    $('#reset_button').toggle();
+    fadeSong(1000);
+    bgmusic=new Audio('sounds/track-5.mp3');
+    bgmusic.play();
+    var winning_gif=$('<img id="winner" src="images/nukeslaunching.gif">');
+    $('#game_screen').append(winning_gif);
+    var winning_sound=new Audio('sounds/2400warheads.mp3');
+    var winning_sound2=new Audio('sounds/billiantlight.mp3');
+    winning_sound.play();
+    setTimeout(function(){
+        winning_sound2.play();
+        setTimeout(function(){
+        winning_gif.remove();
+        $(".count_down_timer *").hide();
+            $('#reset_button').toggle();
+            // resetAll();
+        }, 6000);
+    }, 6000);
+
+
+}
 function updateStats(){
-   if(win_tracker_p1>0){
+   // if (win_tracker_p1>0){
        $(".value1").text(win_tracker_p1);
-   }
-   else if (win_tracker_p2>0){
+   // }
        $(".value2").text(win_tracker_p2);
-   }
+   // }
 }
 
 function resetAll() {
     $('#game_board *').remove();
     $('#bgimg img').remove();
     $('.statscontainer').remove();
+    $('#reset_button').remove();
+    $(".count_down_timer *").hide();
     initGame();
 }
 
@@ -309,7 +380,7 @@ function resetBoard() {
 function randomizeCodes(){
     return launch_codes_array[(Math.floor(Math.random()*7))];
 }
-function startCountDown(){
+function startCountDown() {
     var a = randomizeCodes();
     var b = randomizeCodes();
     var c = randomizeCodes();
@@ -317,7 +388,7 @@ function startCountDown(){
     var e = randomizeCodes();
     var f = randomizeCodes();
     var g = randomizeCodes();
-    if(game_play === true){
+    if (game_play === true) {
         $("#launch_title").text("Launch Codes:");
         $("#char_1").text(a);
         $("#char_2").text(b);
@@ -327,7 +398,7 @@ function startCountDown(){
         $("#char_6").text(f);
         $("#char_7").text(g);
     }
-     var t = setTimeout(startCountDown, 200);
+    var t = setTimeout(startCountDown, time);
 }
 $(document).ready(function() {
     // startPage();

@@ -12,6 +12,7 @@
 }
 body{
     background-color: black;
+    overflow: hidden;
 }
 #game_board{
     top: 50%;
@@ -125,14 +126,29 @@ div.row.top {
     font-family: "Lucida Console", Monaco, monospace;
     color: green;
 }
-.count_down_timer{
+.count_down_timer {
     height: 30px;
     width: 160px;
-    color:red;
+    color: red;
     font-family: "Lucida Console", Monaco, monospace;
     font-size: 20px;
     position: absolute;
     left: 35px;
     top: 21px;
     padding: 5px;
+}
+#reset_button {
+    bottom: 10%;
+    left: 10%;
+    position: absolute;
+}
+#winner {
+    height: 100vh;
+    width: 100vw;
+}
+#player1{
+    font-size:25px;
+}
+#player2{
+    font-size:25px;
 }
