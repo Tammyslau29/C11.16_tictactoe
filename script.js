@@ -22,6 +22,7 @@ var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
 
+
 function fadeSong(duration) {
     if (!duration) {
         duration = 2000;
@@ -475,6 +476,6 @@ function SetLaunchCode() {
 $(document).ready(function() {
     // startPage();
     initGame();
-    initialize('images/nukebutton.png',10,10,1);
+    var leapSensor = initialize('images/nukebutton.png',0,0,1);
 });
 
