@@ -110,6 +110,7 @@ function startPage() {
     fadeSong(2000);
     bgmusic=new Audio("sounds/wargames-theme.mp3");
     bgmusic.play();
+    bgmusic.volume=.5;
     sound_playgame.play();
     var start_page = $('<div>').addClass('startpage');
     $('body').append(start_page);
@@ -196,7 +197,7 @@ function startPage3() {
 
 function easterEgg() {
     var egg_sound = ['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
-    var sound_number = (Math.floor(Math.random()*5) + 1);
+    var sound_number = (Math.floor(Math.random()*5));
     var egg = $('<img id = "egg" src = "images/wargames-tictactoe.gif">');
     debugger;
     $('.startpage').append(egg);
@@ -309,7 +310,7 @@ var winningScore = function(player_score){
 var cellClicked = function() {
     $(this).text(turn);
     move_counter++;
-    if (move_counter == 5) {
+    if (move_counter == 3) {
         changeBackground('wargames-bg2.jpg');
         fadeSong(2000);
         // setTimeout(function(){
@@ -318,7 +319,7 @@ var cellClicked = function() {
             // }, 6500);
         var playitself = new Audio('sounds/learn.mp3');
         playitself.play();
-    } else if (move_counter == 8) {
+    } else if (move_counter == 6) {
         var learn = new Audio('sounds/learndammit.mp3');
         learn.play();
     } else if (move_counter == 12) {
@@ -378,18 +379,21 @@ function gameTie() {
     $('#reset_button').toggle();
     $('header img').remove();
     $(".count_down_timer *").hide();
+    $("#player2").css("opacity" , "1");
+    game_won = true;
+    $("#player1").css("opacity" , "1");
     fadeSong(1000);
     bgmusic = new Audio('sounds/track-8.mp3');
     bgmusic.play();
-    var winning_gif = $('<img id="winner" src="images/launchcode.gif">');
-    $('#game_screen').append(winning_gif);
+    var tie_gif = $('<img id="tie" src="images/launchcode.gif">');
+    $('#game_screen').append(tie_gif);
     var tie_sound = new Audio('sounds/systemsucks.mp3');
     var tie_sound2 = new Audio('sounds/microchips.mp3');
     tie_sound.play();
     setTimeout(function(){
         tie_sound2.play();
         setTimeout(function(){
-            winning_gif.remove();
+            tie_gif.remove();
             $('#reset_button').toggle();
         }, 8000);
     }, 6000);
@@ -398,11 +402,8 @@ function gameTie() {
 function gameWon() {
     time = time/2;
     game_won = true;
-    if(turn == "X"){
-        $("#player2").css("opacity" , "1");
-    }else {
-        $("#player1").css("opacity" , "1");
-    }
+    $("#player2").css("opacity" , "1");
+    $("#player1").css("opacity" , "1");
     $('#game_board *').remove();
     $('#reset_button').toggle();
     $('header img').remove();
