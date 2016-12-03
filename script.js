@@ -71,6 +71,7 @@ function startPage0() {
     $('#game_screen').hide();
     bgmusic = new Audio("sounds/introsong.mp3");
     bgmusic.play();
+    bgmusic.volume=.5;
     var start_page0 = $('<div>').addClass('startpage0');
     $('body').append(start_page0);
     var intro_warning = $('<h1 style="color: white">Please make sure your volume is up and your browser is full screen before continuing.<p>Tip- F11 in Chrome</p><p>If you have a leap motion controller <span id="warning_click">CLICK HERE.</span></p><p>If not, <span id="warning_click2">CLICK HERE.</span></p></h1>');
@@ -249,6 +250,7 @@ function gameBoard(game_size) {
     bgmusic = new Audio('sounds/track-2.mp3');
     bgmusic.play();
     sound_war.play();
+    debugger;
     $(".count_down_timer *").show();
     startCountDown();
 }
@@ -310,10 +312,10 @@ var cellClicked = function() {
     if (move_counter == 5) {
         changeBackground('wargames-bg2.jpg');
         fadeSong(2000);
-        setTimeout(function(){
+        // setTimeout(function(){
             bgmusic = new Audio('sounds/track-9.mp3');
             bgmusic.play();
-            }, 6500);
+            // }, 6500);
         var playitself = new Audio('sounds/learn.mp3');
         playitself.play();
     } else if (move_counter == 8) {
@@ -352,22 +354,22 @@ var switchPlayers = function() {
 var winConditionChecker = function() {
     if (winningScore(score[turn])){
         if (turn==="X") {
+            fadeSong(1);
             win_tracker_p1++;
             updateStats();
-            gameWon();
             game_play= false;
+            gameWon();
         } else if (turn==="O") {
+            fadeSong(1);
             win_tracker_p2++;
             game_play = false;
             updateStats();
             gameWon();
         }
         updateStats();
-        // initGame();
     }  else if (move_counter === (game_size * game_size)){
         game_play = false;
         gameTie();
-        // initGame();
     }
 };
 
@@ -405,8 +407,10 @@ function gameWon() {
     $('#reset_button').toggle();
     $('header img').remove();
     fadeSong(1000);
-    bgmusic = new Audio('sounds/track-5.mp3');
-    bgmusic.play();
+    setTimeout(function() {
+        bgmusic = new Audio('sounds/track-5.mp3');
+        bgmusic.play();
+    },1100);
     $('.count_down_timer').css("background-color","transparent");
     var winning_gif = $('<img id="winner" src="images/nukeslaunching.gif">');
     $('#game_screen').append(winning_gif);
@@ -420,9 +424,9 @@ function gameWon() {
         $(".count_down_timer *").hide();
         $('.count_down_timer').css("background-color","black");
         $('#reset_button').toggle();
-        game_won = false;
         var ending_img = $('<img id="ending" src="images/wargames-welcome.jpg">');
         $('#game_screen').append(ending_img);
+        bgmusic.remove();
         }, 6000);
     }, 6000);
 
@@ -439,6 +443,12 @@ function resetAll() {
     $('#reset_button').remove();
     $('header img').remove();
     $(".count_down_timer *").hide();
+    if (game_won===true) {
+        $('#game_screen img').remove();
+    }
+    game_won = false;
+    $(".sounds").remove();
+    fadeSong();
     initGame();
 }
 
