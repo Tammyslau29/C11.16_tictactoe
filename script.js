@@ -1,3 +1,6 @@
+/**
+ * Global Variables
+ */
 var turn = "X";
 var score = {
     "X" : 0,
@@ -22,7 +25,10 @@ var sound_war = new Audio("sounds/globalthermowar.mp3");
 var sound_playgame = new Audio("sounds/playagame.mp3");
 var bgimg = "images/wargames-bg1.jpg";
 
-
+/**
+ * Function that fades which ever song is currently playing.  If no duration is specified, uses 2s.
+ * @param duration
+ */
 function fadeSong(duration) {
     if (!duration) {
         duration = 2000;
@@ -32,6 +38,10 @@ function fadeSong(duration) {
     $(bgmusic).prop("currentTime",0);
 }
 
+/**
+ * Switches the background images with a fade animation.
+ * @param new_bg
+ */
 function changeBackground(new_bg) {
     bg=$("#bgimg");
     bg.fadeOut();
@@ -42,6 +52,9 @@ function changeBackground(new_bg) {
     }, 500);
 }
 
+/**
+ * Builds the stat container in the DOM
+ */
 function statsDisplay() {
     var stats_container = $("<div>").addClass('statscontainer');
     $('body').append(stats_container);
@@ -53,7 +66,9 @@ function statsDisplay() {
     stats_container.append(stats_head,player_container,player1,player2);
 }
 
-/* set game to initial conditions*/
+/**
+ * Sets game to initial conditions
+ */
 var initGame = function () {
     game_play = true;
     turn = "X";
@@ -67,6 +82,9 @@ var initGame = function () {
     startPage0();
 };
 
+/**
+ * Builds landing page, lets user choose whether Leap Motion is present.
+ */
 function startPage0() {
     $('#game_screen').hide();
     bgmusic = new Audio("sounds/introsong.mp3");
@@ -83,6 +101,9 @@ function startPage0() {
     $('#warning_click2').click(startPage0_2);
 }
 
+/**
+ * Only used if leap motion is present. Set bg img and plays sound while waiting for trigger from Leap Motion.
+ */
 function startPage0_1() {
     $('.startpage0 *').remove();
     var start_page0_img = $('<img src="images/newstartbg2.png">');
@@ -91,6 +112,9 @@ function startPage0_1() {
     sound_tammy.play();
 }
 
+/**
+ * Shows graphics and sound for 'time machine' activation. Sends user to 'pre-game terminal'.
+ */
 function startPage0_2() {
     $('.startpage0 *').remove();
     start_page0_img = $('<img id="hypno" src="images/hypnocircle.gif">');
@@ -106,6 +130,9 @@ function startPage0_2() {
     },5000);
 }
 
+/**
+ * Beginning of pre-game. Builds DOM for terminal emulation.
+ */
 function startPage() {
     fadeSong(2000);
     bgmusic=new Audio("sounds/wargames-theme.mp3");
@@ -132,6 +159,9 @@ function startPage() {
     })
 }
 
+/**
+ * Pre-game pg 2, selection for number of players.
+ */
 function startPage2() {
     sound_fine.play();
     var start_target = $('.startpage');
@@ -160,6 +190,9 @@ function startPage2() {
     })
 }
 
+/**
+ * Pre-game pg 3. Select size of board.
+ */
 function startPage3() {
     sound_excellent.play();
     var start_target = $('.startpage');
@@ -195,6 +228,9 @@ function startPage3() {
     })
 }
 
+/**
+ * Only activated if user chose 0 players. Plays sound and graphics, then returns.
+ */
 function easterEgg() {
     var egg_sound = ['strange.mp3','hallucination.mp3','maybedefcon1.mp3','secure.mp3','war.mp3'];
     var sound_number = (Math.floor(Math.random()*5));
@@ -208,6 +244,10 @@ function easterEgg() {
     sound_egg.play();
 }
 
+/**
+ * Beginning of game proper. Builds board, and all DOM elements.
+ * @param game_size - number of rows/columns - 3, 4, or 5.
+ */
 function gameBoard(game_size) {
     var row = "";
     var cell = "";
@@ -218,7 +258,7 @@ function gameBoard(game_size) {
     $('#bgimg').html('<img src="images/wargames-bg1.jpg" id = "bg">');
     var header=$('<header><img src = "images/wopr.jpg"></header>');
     $("#game_screen").append(header);
-    for (var i = 0; i < game_size; i++) {
+    for (var i = 0; i < game_size; i++) {        //these classes are used to draw borders correctly.
         if (i === 0) {
             row = $("<div>").addClass("row").addClass('top');
         }
@@ -228,8 +268,7 @@ function gameBoard(game_size) {
         else {
             row = $("<div>").addClass("row").addClass('middle');
         }
-        // $("#game_board").append(row);
-        for (j = 0; j < game_size; j++) {
+        for (var j = 0; j < game_size; j++) {
             if (j === 0) {
                 cell = $("<div>").addClass("cell").addClass("left_side").data("cell_value",cells_array[cell_array_counter++]);
             }
@@ -243,6 +282,7 @@ function gameBoard(game_size) {
         }
         $("#game_board").append(row);
     }
+
     var reset_button = $('<img src="images/nukebutton.png" id = "reset_button">');
     $("#game_screen").append(reset_button);
     $("#reset_button").click(resetAll);
@@ -256,6 +296,9 @@ function gameBoard(game_size) {
     startCountDown();
 }
 
+/**
+ * unused.  Placeholder for AI functionality.
+ */
 var callAI = function(){
     startPage3();
     initGame();
@@ -273,7 +316,11 @@ var callAI = function(){
     switchPlayers();
 };
 
-/*Generate array of winning numbers*/
+/**
+ * Generates the array of win conditions.
+ * @param game_size
+ * @returns {Array.<*>}
+ */
 var generateWinningNumbers = function(game_size) {
     var val = 1, cells = [], wins = [];
     for (var i = 0; i < game_size; i++) {
@@ -297,7 +344,11 @@ var generateWinningNumbers = function(game_size) {
     return row_wins.concat(col_wins, first_diag_win, second_diag_win);
 };
 
-/*Check player score against winning numbers and returns result*/
+/**
+ * Checks to see if win condition is met.
+ * @param player_score
+ * @returns {boolean}
+ */
 var winningScore = function(player_score){
     for (var i = 0; i < winning_array.length; i++){
         if ((winning_array[i] & player_score) === winning_array[i]){
@@ -307,6 +358,9 @@ var winningScore = function(player_score){
     return false
 };
 
+/**
+ * Called every time a cell is clicked. Draws the DOM, changes the music if necessary, checks for win.
+ */
 var cellClicked = function() {
     $(this).text(turn);
     move_counter++;
@@ -336,7 +390,9 @@ var cellClicked = function() {
     $(this).addClass("unclickable");
 };
 
-/*Switch players*/
+/**
+ * Called to switch from one player to the other after a move.
+ */
 var switchPlayers = function() {
         if (turn === "X") {
             turn = "O";
@@ -351,7 +407,9 @@ var switchPlayers = function() {
         }
 };
 
-/*Checks winning condition*/
+/**
+ * Checks to see if a player won and updates DOM accordingly.
+ */
 var winConditionChecker = function() {
     if (winningScore(score[turn])){
         if (turn==="X") {
@@ -374,6 +432,9 @@ var winConditionChecker = function() {
     }
 };
 
+/**
+ * Changes DOM to reflect tie game.
+ */
 function gameTie() {
     $('#game_board *').remove();
     $('#reset_button').toggle();
@@ -399,6 +460,9 @@ function gameTie() {
     }, 6000);
 }
 
+/**
+ * Changes DOM to reflect game won.
+ */
 function gameWon() {
     time = time/2;
     game_won = true;
@@ -432,11 +496,18 @@ function gameWon() {
     }, 6000);
 
 }
+
+/**
+ * Updates the states container
+ */
 function updateStats(){
        $(".value1").text(win_tracker_p1);
        $(".value2").text(win_tracker_p2);
 }
 
+/**
+ * Called when the reset btn is pressed.  Removes the DOM and re-initializes game state.
+ */
 function resetAll() {
     $('#game_board *').remove();
     $('#bgimg img').remove();
@@ -453,14 +524,24 @@ function resetAll() {
     initGame();
 }
 
+/**
+ * Unused. Left for future development.
+ */
 function resetBoard() {
     gameBoard();
 }
 
+/**
+ * Used to randomize the countdown graphic.
+ * @returns {string}
+ */
 function randomizeCodes(){
     return launch_codes_array[(Math.floor(Math.random()*7))];
 }
 
+/**
+ * Starts the countdown graphic.
+ */
 function startCountDown() {
     var a = randomizeCodes();
     var b = randomizeCodes();
@@ -510,6 +591,10 @@ function startCountDown() {
     SetLaunchCode();
 }
 
+/**
+ * Makes the individual letters freeze as time goes on.
+ * @constructor
+ */
 function SetLaunchCode() {
     console.log("remove class function");
     setTimeout(function () {
@@ -534,6 +619,10 @@ function SetLaunchCode() {
         $("#char_7").addClass('dontanimate');
     }, 14000000000);
 }
+
+/**
+ * Document ready. Start the game!
+ */
 $(document).ready(function() {
     initGame();
 });
